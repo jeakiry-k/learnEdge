@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+    /* ===== 全局极简文档风 ===== */
+    :root {
+      --md-text-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --md-code-font: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+    }
+
+    /* 隐藏顶部标题栏 */
+    .md-header {
+      background: var(--md-default-bg-color);
+      box-shadow: none;
+      border-bottom: 1px solid var(--md-default-fg-color--lightest);
+    }
+    .md-header__title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--md-default-fg-color);
+    }
+    .md-header__topic {
+      color: var(--md-default-fg-color);
+    }
+
+    /* 左侧导航：纯文字，无图标，紧凑 */
+    .md-sidebar--primary {
+      border-right: 1px solid var(--md-default-fg-color--lightest);
+    }
+    .md-sidebar--primary .md-sidebar__inner {
+      padding: 1.5rem 0;
+    }
+    .md-nav {
+      font-size: 0.85rem;
+    }
+    .md-nav__title {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--md-default-fg-color--light);
+      padding: 0.5rem 1.5rem;
+    }
+    .md-nav__item {
+      padding: 0;
+    }
+    .md-nav__link {
+      margin: 0;
+      padding: 0.35rem 1.5rem;
+      font-weight: 400;
+      color: var(--md-default-fg-color--light);
+      transition: color 0.15s;
+    }
+    .md-nav__link:hover {
+      color: var(--md-accent-fg-color);
+    }
+    .md-nav__link--active {
+      color: var(--md-accent-fg-color);
+      font-weight: 500;
+    }
+    .md-nav__link--active::before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: var(--md-accent-fg-color);
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      border-radius: 2px;
+    }
+
+    /* 分类标题 */
+    .md-nav__item--nested > .md-nav__link {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      margin-top: 1rem;
+    }
+
+    /* 右侧内容区 */
+    .md-content {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .md-content__inner {
+      padding: 3rem 2.5rem;
+    }
+    .md-content__inner::before {
+      display: none;
+    }
+
+    /* 文章标题 */
+    .md-content h1 {
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .md-content h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-top: 2.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--md-default-fg-color--lightest);
+    }
+    .md-content h3 {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-top: 2rem;
+    }
+
+    /* 正文段落 */
+    .md-content p {
+      line-height: 1.8;
+      color: var(--md-default-fg-color);
+    }
+
+    /* 表格 */
+    .md-content table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+    .md-content th {
+      border-bottom: 2px solid var(--md-default-fg-color--lighter);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    .md-content td {
+      border-bottom: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.5rem 1rem;
+    }
+
+    /* 代码块 */
+    .md-content pre {
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .md-content code {
+      font-size: 0.85rem;
+    }
+
+    /* 引用块 */
+    .md-content blockquote {
+      border-left: 3px solid var(--md-accent-fg-color);
+      padding: 0.5rem 1.5rem;
+      margin: 1rem 0;
+      color: var(--md-default-fg-color--light);
+      background: transparent;
+    }
+
+    /* 右侧目录 */
+    .md-sidebar--secondary .md-nav__link {
+      font-size: 0.8rem;
+      padding: 0.2rem 0;
+    }
+
+    /* 搜索框 */
+    .md-search__input {
+      font-size: 0.85rem;
+    }
+  </style>
+{% endblock %}
+
+{% block header %}
+  {% if page.is_home %}
+    <!-- 首页不显示默认 header -->
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}

@@ -8,6 +8,7 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: zh
+  custom_dir: docs/overrides
   features:
     - navigation.sections
     - search.suggest
@@ -17,10 +18,10 @@ theme:
   palette:
     - scheme: default
       primary: white
-      accent: indigo
+      accent: blue
     - scheme: slate
-      primary: grey
-      accent: indigo
+      primary: blue grey
+      accent: blue
   font: false
 
 markdown_extensions:
