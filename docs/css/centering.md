@@ -1,3 +1,9 @@
+---
+date: "2026-09-24"
+category: "CSS"
+title: "CSS 居中方案"
+---
+
 # CSS 居中方案
 
 ## 问题

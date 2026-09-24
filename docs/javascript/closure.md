@@ -1,3 +1,9 @@
+---
+date: "2026-09-24"
+category: "JavaScript"
+title: "闭包（Closure）"
+---
+
 # 闭包（Closure）
 
 ## 问题

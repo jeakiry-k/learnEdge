@@ -9,30 +9,19 @@ theme:
   name: material
   language: zh
   features:
-    - navigation.tabs
     - navigation.sections
-    - navigation.expand
-    - navigation.indexes
     - search.suggest
     - search.highlight
     - content.code.copy
     - content.action.edit
   palette:
     - scheme: default
-      primary: indigo
+      primary: white
       accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: 切换暗色模式
     - scheme: slate
-      primary: indigo
+      primary: grey
       accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: 切换亮色模式
-  font:
-    text: Noto Sans SC
-    code: JetBrains Mono
+  font: false
 
 markdown_extensions:
   - admonition
@@ -40,12 +29,10 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.tabbed:
-      alternate_style: true
   - attr_list
   - md_in_html
   - toc:
-      permalink: true
+      permalink: "#"
 
 plugins:
   - search:
@@ -56,24 +43,11 @@ plugins:
 nav:
   - 首页: index.md
   - JavaScript:
-      - 概览: javascript/index.md
       - 事件循环: javascript/event-loop.md
       - 闭包: javascript/closure.md
   - CSS:
-      - 概览: css/index.md
       - 居中方案: css/centering.md
-  - HTML:
-      - 概览: html/index.md
-  - React:
-      - 概览: react/index.md
-  - Vue:
-      - 概览: vue/index.md
   - 浏览器与网络:
-      - 概览: browser-network/index.md
       - HTTP 缓存策略: browser-network/http-caching.md
-  - 算法与数据结构:
-      - 概览: algorithm/index.md
   - 工程化:
-      - 概览: engineering/index.md
-  - 性能优化:
-      - 概览: performance/index.md
+      - 短链服务系统设计: engineering/url-shortener.md

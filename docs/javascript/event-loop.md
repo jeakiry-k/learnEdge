@@ -1,3 +1,9 @@
+---
+date: "2026-09-24"
+category: "JavaScript"
+title: "事件循环（Event Loop）"
+---
+
 # 事件循环（Event Loop）
 
 ## 问题
