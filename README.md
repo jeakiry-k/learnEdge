@@ -32,7 +32,7 @@
 
 在 GitHub 仓库页面有两种方式找到站点入口：
 
-- **方式一（About 区域）**：仓库首页右侧 **About** 栏的 **Website** 链接，点击即跳转到站点
+- **方式一（About 区域）**：仓库首页右侧 **About** 栏 → 点击 ⚙️ 齿轮图标 → 在 **Website** 栏填入 `https://jeakiry-k.github.io/learnEdge/` 并保存，之后 About 区域会显示该链接
 - **方式二（Settings）**：点击顶部 **Settings** → 左侧 **Pages**，可看到部署状态和站点 URL
 - **方式三（Actions）**：点击顶部 **Actions**，可查看每次部署的构建日志和进度
 
