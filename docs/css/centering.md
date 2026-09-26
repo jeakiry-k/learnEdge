@@ -2,15 +2,21 @@
 date: "2026-09-24"
 category: "CSS"
 title: "CSS 居中方案"
+tags: [布局, Flex, Grid, 定位]
 ---
 
 # CSS 居中方案
 
-## 问题
+<div class="question-tags">
+  <span class="question-tag">布局</span>
+  <span class="question-tag">Flex</span>
+  <span class="question-tag">Grid</span>
+  <span class="question-tag">定位</span>
+</div>
+
 
 > 请列举你知道的 CSS 水平垂直居中方案，并说明各自的适用场景。
 
-## 答案
 
 ### 方案一：Flex（推荐）
 

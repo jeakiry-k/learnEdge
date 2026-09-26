@@ -2,15 +2,21 @@
 date: "2026-09-24"
 category: "JavaScript"
 title: "事件循环（Event Loop）"
+tags: [异步, 宏任务, 微任务, Promise]
 ---
 
 # 事件循环（Event Loop）
 
-## 问题
+<div class="question-tags">
+  <span class="question-tag">异步</span>
+  <span class="question-tag">宏任务</span>
+  <span class="question-tag">微任务</span>
+  <span class="question-tag">Promise</span>
+</div>
+
 
 > 请解释 JavaScript 的事件循环机制，宏任务和微任务有什么区别？
 
-## 答案
 
 JavaScript 是单线程语言，通过**事件循环**机制实现异步非阻塞。
 

@@ -2,15 +2,20 @@
 date: "2026-09-24"
 category: "JavaScript"
 title: "闭包（Closure）"
+tags: [作用域, 内存管理, GC]
 ---
 
 # 闭包（Closure）
 
-## 问题
+<div class="question-tags">
+  <span class="question-tag">作用域</span>
+  <span class="question-tag">内存管理</span>
+  <span class="question-tag">GC</span>
+</div>
+
 
 > 什么是闭包？请举例说明闭包的应用场景和潜在问题。
 
-## 答案
 
 **闭包**是指一个函数能够访问其外部函数作用域中的变量，即使外部函数已经执行完毕。
 

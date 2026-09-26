@@ -2,15 +2,21 @@
 date: "2026-09-24"
 category: "浏览器与网络"
 title: "HTTP 缓存策略"
+tags: [HTTP, 缓存, 性能, 304]
 ---
 
 # HTTP 缓存策略
 
-## 问题
+<div class="question-tags">
+  <span class="question-tag">HTTP</span>
+  <span class="question-tag">缓存</span>
+  <span class="question-tag">性能</span>
+  <span class="question-tag">304</span>
+</div>
+
 
 > 浏览器的 HTTP 缓存机制是怎样的？强缓存和协商缓存有什么区别？
 
-## 答案
 
 浏览器缓存分为两个阶段：**强缓存** → **协商缓存**。
 

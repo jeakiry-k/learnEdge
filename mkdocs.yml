@@ -1,20 +1,16 @@
-site_name: 面试知识合集
+site_name: 题库
 site_description: 前端面试题与知识点合集
 site_author: kjeakiry
 repo_url: https://github.com/kjeakiry/learnedge
-repo_name: kjeakiry/learnedge
-edit_uri: edit/main/docs/
 
 theme:
   name: material
   language: zh
   custom_dir: docs/overrides
   features:
-    - navigation.sections
     - search.suggest
     - search.highlight
     - content.code.copy
-    - content.action.edit
   palette:
     - scheme: default
       primary: white
@@ -33,7 +29,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - toc:
-      permalink: "#"
+      permalink: false
 
 plugins:
   - search:
@@ -43,12 +39,14 @@ plugins:
 
 nav:
   - 首页: index.md
-  - JavaScript:
+  - JavaScript 分类: category/javascript/index.md
+  - CSS 分类: category/css/index.md
+  - 浏览器与网络分类: category/browser-network/index.md
+  - 工程化分类: category/engineering/index.md
+  - 题目列表:
       - 事件循环: javascript/event-loop.md
       - 闭包: javascript/closure.md
-  - CSS:
+      - 线程、进程、协程的区别: javascript/thread-process-coroutine.md
       - 居中方案: css/centering.md
-  - 浏览器与网络:
       - HTTP 缓存策略: browser-network/http-caching.md
-  - 工程化:
       - 短链服务系统设计: engineering/url-shortener.md
