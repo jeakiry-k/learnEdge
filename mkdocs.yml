@@ -1,7 +1,7 @@
 site_name: 题库
 site_description: 前端面试题与知识点合集
 site_author: kjeakiry
-repo_url: https://github.com/kjeakiry/learnedge
+repo_url: https://github.com/jeakiry-k/learnEdge
 
 theme:
   name: material
