@@ -80,9 +80,10 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>浏览器与网络</h1>
-    <span class="count">共 1 篇</span>
+    <span class="count">共 2 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../browser-network/tcp-handshake-farewell"><span class="item-title">TCP 三次握手与四次挥手</span><span class="item-tags"><span class="tag">TCP</span><span class="tag">网络</span><span class="tag">协议</span></span><span class="item-date">2026-09-28</span></a></li>
 <li><a href="../../browser-network/http-caching"><span class="item-title">HTTP 缓存策略</span><span class="item-tags"><span class="tag">HTTP</span><span class="tag">缓存</span><span class="tag">性能</span></span><span class="item-date">2026-09-24</span></a></li>
   </ul>
 </div>

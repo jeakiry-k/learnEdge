@@ -1,5 +1,5 @@
-site_name: 题库
-site_description: 前端面试题与知识点合集
+site_name: JAVA题库
+site_description: JAVA面试题与知识点合集
 site_author: kjeakiry
 repo_url: https://github.com/jeakiry-k/learnEdge
 
@@ -42,11 +42,14 @@ nav:
   - JavaScript 分类: category/javascript/index.md
   - CSS 分类: category/css/index.md
   - 浏览器与网络分类: category/browser-network/index.md
+  - Redis 分类: category/redis/index.md
+  - MySQL 分类: category/mysql/index.md
   - 工程化分类: category/engineering/index.md
   - 题目列表:
-      - 事件循环: javascript/event-loop.md
-      - 闭包: javascript/closure.md
-      - 线程、进程、协程的区别: javascript/thread-process-coroutine.md
-      - 居中方案: css/centering.md
+      - MySQL 字段类型与存储空间估算: mysql/field-types.md
+      - 缓存穿透、击穿、雪崩: redis/cache-issues.md
+      - Redis 连接池: redis/connection-pool.md
+      - Redis 常见异常: redis/common-exceptions.md
+      - TCP 三次握手与四次挥手: browser-network/tcp-handshake-farewell.md
       - HTTP 缓存策略: browser-network/http-caching.md
       - 短链服务系统设计: engineering/url-shortener.md

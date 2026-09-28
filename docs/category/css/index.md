@@ -80,9 +80,8 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>CSS</h1>
-    <span class="count">共 1 篇</span>
+    <span class="count">共 0 篇</span>
   </div>
   <ul class="category-list">
-<li><a href="../../css/centering"><span class="item-title">CSS 居中方案</span><span class="item-tags"><span class="tag">布局</span><span class="tag">Flex</span><span class="tag">Grid</span></span><span class="item-date">2026-09-24</span></a></li>
   </ul>
 </div>

@@ -1,6 +1,6 @@
-# 📚 面试知识合集
+# 📚 JAVA题库
 
-前端面试题与知识点合集，基于 MkDocs Material 构建，自动部署于 GitHub Pages。
+JAVA 面试题与知识点合集，基于 MkDocs Material 构建，自动部署于 GitHub Pages。
 
 ## 🌐 在线访问
 

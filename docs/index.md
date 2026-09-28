@@ -144,14 +144,15 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>6</strong> 篇 · 4 分类 · 最近 2026-09-25</span>
+    <span class="home-stats">共 <strong>7</strong> 篇 · 4 分类 · 最近 2026-09-28</span>
   </div>
   <ul class="home-list">
-<li><a href="javascript/thread-process-coroutine" class="li-link"><span class="li-title">线程、进程、协程的区别</span><span class="li-tags"><span class="li-tag">进程</span><span class="li-tag">线程</span><span class="li-tag">协程</span></span></a><a href="../category/javascript" class="li-cat">JavaScript</a></li>
-<li><a href="css/centering" class="li-link"><span class="li-title">CSS 居中方案</span><span class="li-tags"><span class="li-tag">布局</span><span class="li-tag">Flex</span><span class="li-tag">Grid</span></span></a><a href="../category/css" class="li-cat">CSS</a></li>
+<li><a href="browser-network/tcp-handshake-farewell" class="li-link"><span class="li-title">TCP 三次握手与四次挥手</span><span class="li-tags"><span class="li-tag">TCP</span><span class="li-tag">网络</span><span class="li-tag">协议</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
+<li><a href="redis/connection-pool" class="li-link"><span class="li-title">Redis 连接池</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">连接池</span><span class="li-tag">性能优化</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="redis/common-exceptions" class="li-link"><span class="li-title">Redis 常见异常</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">异常</span><span class="li-tag">排查</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="mysql/field-types" class="li-link"><span class="li-title">MySQL 字段类型与存储空间估算</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">数据类型</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>
+<li><a href="redis/cache-issues" class="li-link"><span class="li-title">缓存穿透、击穿、雪崩</span><span class="li-tags"><span class="li-tag">缓存</span><span class="li-tag">Redis</span><span class="li-tag">高并发</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
 <li><a href="browser-network/http-caching" class="li-link"><span class="li-title">HTTP 缓存策略</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">缓存</span><span class="li-tag">性能</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
-<li><a href="javascript/event-loop" class="li-link"><span class="li-title">事件循环（Event Loop）</span><span class="li-tags"><span class="li-tag">异步</span><span class="li-tag">宏任务</span><span class="li-tag">微任务</span></span></a><a href="../category/javascript" class="li-cat">JavaScript</a></li>
-<li><a href="javascript/closure" class="li-link"><span class="li-title">闭包（Closure）</span><span class="li-tags"><span class="li-tag">作用域</span><span class="li-tag">内存管理</span><span class="li-tag">GC</span></span></a><a href="../category/javascript" class="li-cat">JavaScript</a></li>
 <li><a href="engineering/url-shortener" class="li-link"><span class="li-title">短链系统设计</span><span class="li-tags"><span class="li-tag">系统设计</span><span class="li-tag">Base62</span><span class="li-tag">Redis</span></span></a><a href="../category/engineering" class="li-cat">工程化</a></li>
   </ul>
 </div>

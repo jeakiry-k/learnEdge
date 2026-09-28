@@ -79,9 +79,12 @@ hide:
 
 <div class="category-page">
   <div class="category-header">
-    <h1>JavaScript</h1>
-    <span class="count">共 0 篇</span>
+    <h1>Redis</h1>
+    <span class="count">共 3 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../redis/connection-pool"><span class="item-title">Redis 连接池</span><span class="item-tags"><span class="tag">Redis</span><span class="tag">连接池</span><span class="tag">性能优化</span></span><span class="item-date">2026-09-28</span></a></li>
+<li><a href="../../redis/common-exceptions"><span class="item-title">Redis 常见异常</span><span class="item-tags"><span class="tag">Redis</span><span class="tag">异常</span><span class="tag">排查</span></span><span class="item-date">2026-09-28</span></a></li>
+<li><a href="../../redis/cache-issues"><span class="item-title">缓存穿透、击穿、雪崩</span><span class="item-tags"><span class="tag">缓存</span><span class="tag">Redis</span><span class="tag">高并发</span></span><span class="item-date">2026-09-28</span></a></li>
   </ul>
 </div>
