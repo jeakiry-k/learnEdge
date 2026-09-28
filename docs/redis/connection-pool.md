@@ -76,6 +76,47 @@ tags: [Redis, 连接池, 性能优化]
 
 > 关键理解：**连接池里的 TCP 连接是长连接**，应用运行期间持续保持，避免反复三次握手/四次挥手。
 
+#### minIdle 与 maxIdle 的处理机制
+
+两个参数共同控制「空闲连接」的保底与上限：
+
+| 参数 | 角色 | 处理时机 |
+|------|------|---------|
+| `minIdle` | 空闲保底数，池自动补足，永不低于此值 | 后台线程定时巡检 |
+| `maxIdle` | 空闲上限，归还时超出的连接直接关闭 | 连接归还时刻 |
+
+```
+【扩容：保证不低于 minIdle】
+Evictor 后台线程（每 timeBetweenEvictionRunsMillis 巡检一次）
+  │
+  ├─ 空闲连接数 < minIdle？
+  │     └─ 是 → 创建新连接补足到 minIdle
+  │
+  └─ 缩容检查：空闲数 > minIdle
+        且该连接空闲时长 > minEvictableIdleTimeMillis（默认 30 分钟）？
+              └─ 是 → 销毁多余空闲连接，回落到 minIdle
+
+【归还：不超过 maxIdle】
+线程用完连接，close() 归还
+  │
+  ├─ 当前空闲连接数 < maxIdle → 放回空闲集合，供下次复用
+  │
+  └─ 当前空闲连接数 ≥ maxIdle → 不入池，直接物理关闭 TCP
+```
+
+要点：
+
+1. **minIdle 是保底**：Evictor 线程发现空闲数不足会自动补建连接（commons-pool2 的 ensureMinIdle 机制，Jedis/Lettuce 均基于此）
+2. **maxIdle 只影响归还动作**：借出时不受它限制（受 maxTotal 限制），归还时池满即关
+3. **缩容不是直接砍到 minIdle**：空闲超过 minIdle 的连接，还要再满足「空闲时长超过 30 分钟」才会被回收，避免流量短暂波动导致频繁建连
+4. **maxIdle 不宜远小于 maxTotal**：否则高峰期新建的连接归还时会被 maxIdle 挤掉关闭，流量回升又要重建，造成「连接抖动」。推荐 `maxIdle ≈ maxTotal`
+
+```java
+JedisPoolConfig config = new JedisPoolConfig();
+config.setMinIdle(10);    // 保底 10 个空闲连接，掉下去自动补
+config.setMaxIdle(100);   // 归还时空闲已满 100 个 → 直接关闭，不入池
+```
+
 ### 连接池核心参数
 
 以 Java 主流的 **Lettuce** 和 **Jedis** 为例：
@@ -186,6 +227,23 @@ redis-cli CLIENT LIST
 redis-cli CLIENT LIST | sort -t= -k5 -n | tail -20
 ```
 
+关键字段含义（单位均为秒）：
+
+| 字段 | 含义 |
+|------|------|
+| `age` | 连接从建立至今的**总存活时长** |
+| `idle` | 距离**最后一次执行命令**的空闲时长 |
+
+```
+age - idle = 该连接实际在干活的总时长
+
+age=3600, idle=3600 → idle == age：建立后几乎没干过活 → 空闲连接/泄漏
+age=3600, idle=0    → 刚执行完命令，正在持续工作 → 正常活跃连接
+age=3600, idle=3000 → 建立很久但最近 50 分钟没动 → 疑似池中闲置
+```
+
+> `idle` 很大不一定就是泄漏——连接池里的空闲连接本来就常驻，需结合应用侧 `active` 指标判断；但 `idle == age` 且数量超过池的 minIdle，大概率是泄漏。
+
 #### 第三步：按常见原因逐一排查
 
 **原因 1：连接泄漏（最常见）**
@@ -272,6 +330,51 @@ redis-cli INFO persistence   # rdb_bgsave_in_progress
 多应用共享同一个 Redis 时：
   各应用 maxTotal 之和 < maxclients × 0.7（留 30% 余量给监控和运维）
 ```
+
+#### 多应用共享 Redis：连接总数超限会怎样
+
+连接数按**应用实例数 × maxTotal** 累加，很容易超预估：
+
+```
+应用 A：5 个实例 × maxTotal 200 = 1000 连接
+应用 B：10 个实例 × maxTotal 100 = 1000 连接
+监控/运维连接：约 50
+─────────────────────────────────
+合计 2050，而 maxclients 默认 10000
+→ 应用继续扩容实例、或调大 maxTotal，就可能撞上限
+
+Redis Cluster 下更严重：maxclients 是单节点维度，
+客户端与每个节点都建连，实际连接 = 实例数 × maxTotal × 节点数
+```
+
+超限后的行为：
+
+1. **新连接被拒绝**：Redis 达到 maxclients 后对新连接返回错误并立即关闭：
+   `ERR max number of clients reached`
+2. **存量连接不受影响**：已建立的连接继续正常工作——所以故障表现是「间歇性、新请求报错、老连接正常」，容易误判为偶发网络抖动
+3. **客户端表现**：连接池获取/新建连接时抛异常（Connection reset、max number of clients reached），并连带触发获取连接超时
+
+排查哪个应用占用最多：
+
+```bash
+# 确认上限与当前连接数
+redis-cli CONFIG GET maxclients
+redis-cli INFO clients | grep -E "connected_clients|maxclients"
+
+# 按来源 IP 统计连接数，找出占用大户
+redis-cli CLIENT LIST | grep -o 'addr=[^ ]*' \
+  | cut -d= -f2 | cut -d: -f1 | sort | uniq -c | sort -rn | head
+```
+
+解决方案：
+
+| 方案 | 说明 |
+|------|------|
+| 事前估算 | Σ(实例数 × maxTotal) < maxclients × 0.7，纳入发布检查 |
+| 临时扩容 | `CONFIG SET maxclients 20000`（注意连接本身占内存，需留余量） |
+| 治本：减少连接数 | 调小各应用 maxTotal；或统一改用 Lettuce（单连接多线程共享，连接数骤减） |
+| 治本：代理收敛 | 多应用直连改为经代理层访问，由代理维护与 Redis 的少量长连接 |
+| 治理闲置 | `CONFIG SET timeout 300` 自动断开长期空闲连接（对阻塞命令无效） |
 
 ### 连接池监控
 
