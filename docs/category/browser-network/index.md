@@ -75,6 +75,18 @@ hide:
   text-align: right;
 }
 
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .category-page { padding: 1.5rem 1rem; }
+  .item-tags { display: none; }
+}
+@media screen and (max-width: 480px) {
+  .category-page { padding: 1.25rem 0.85rem; }
+  .category-header h1 { font-size: 1.25rem; }
+  .item-date { display: none; }
+  .category-list a:hover { padding-left: 0; }
+}
+
 </style>
 
 <div class="category-page">

@@ -75,16 +75,27 @@ hide:
   text-align: right;
 }
 
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .category-page { padding: 1.5rem 1rem; }
+  .item-tags { display: none; }
+}
+@media screen and (max-width: 480px) {
+  .category-page { padding: 1.25rem 0.85rem; }
+  .category-header h1 { font-size: 1.25rem; }
+  .item-date { display: none; }
+  .category-list a:hover { padding-left: 0; }
+}
+
 </style>
 
 <div class="category-page">
   <div class="category-header">
     <h1>Redis</h1>
-    <span class="count">共 3 篇</span>
+    <span class="count">共 2 篇</span>
   </div>
   <ul class="category-list">
 <li><a href="../../redis/connection-pool"><span class="item-title">Redis 连接池</span><span class="item-tags"><span class="tag">Redis</span><span class="tag">连接池</span><span class="tag">性能优化</span></span><span class="item-date">2026-09-28</span></a></li>
-<li><a href="../../redis/common-exceptions"><span class="item-title">Redis 常见异常</span><span class="item-tags"><span class="tag">Redis</span><span class="tag">异常</span><span class="tag">排查</span></span><span class="item-date">2026-09-28</span></a></li>
 <li><a href="../../redis/cache-issues"><span class="item-title">缓存穿透、击穿、雪崩</span><span class="item-tags"><span class="tag">缓存</span><span class="tag">Redis</span><span class="tag">高并发</span></span><span class="item-date">2026-09-28</span></a></li>
   </ul>
 </div>

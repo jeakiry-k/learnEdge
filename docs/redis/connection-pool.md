@@ -29,6 +29,53 @@ tags: [Redis, 连接池, 性能优化]
   省去了反复建连的开销
 ```
 
+### 连接池工作原理
+
+连接池内部维护两个集合：**空闲连接集合**（idle）和**活跃连接集合**（active）。
+
+```
+应用启动
+  │
+  ▼
+初始化 minIdle 个连接，放入空闲集合
+  │
+  ▼
+线程 A 来请求 getResource()
+  │
+  ├─ 空闲集合有连接？ ──是──→ 取出，移入活跃集合，交给线程 A
+  │     │
+  │     否
+  │     ▼
+  ├─ 活跃连接数 < maxTotal？ ──是──→ 新建连接，放入活跃集合
+  │     │
+  │     否（池已满）
+  │     ▼
+  └─ 进入等待队列，等待 maxWaitMillis
+        │
+        ├─ 等待期间有连接归还 → 获取成功
+        │
+        └─ 超时仍无连接 → 抛出异常
+              JedisConnectionException:
+              Could not get a resource from the pool
+
+线程 A 用完 close()/try-with-resources
+  │
+  ▼
+连接从活跃集合移回空闲集合（不是真正关闭 TCP），等待下一个线程复用
+```
+
+#### 关键机制
+
+| 机制 | 说明 |
+|------|------|
+| 借还模型 | `getResource()` 借出 → `close()` 归还，`close()` 对池化连接不是关闭 TCP，而是归还池中 |
+| 按需扩容 | 空闲连接不够时才新建连接，直到 maxTotal |
+| 空闲回收 | 后台线程定期销毁超过 maxIdle 的空闲连接，保持在 minIdle~maxIdle 之间 |
+| 阻塞等待 | 池满后线程排队等待，超时快速失败而非无限挂起 |
+| 连接保活 | `testWhileIdle` 定期检测空闲连接活性，防止取到已被 Redis 端断开的死连接 |
+
+> 关键理解：**连接池里的 TCP 连接是长连接**，应用运行期间持续保持，避免反复三次握手/四次挥手。
+
 ### 连接池核心参数
 
 以 Java 主流的 **Lettuce** 和 **Jedis** 为例：
@@ -92,6 +139,123 @@ jedis.set("key", "value");
 try (Jedis jedis = pool.getResource()) {
     jedis.set("key", "value");
 }
+```
+
+### 连接池耗尽时如何排查
+
+报错特征：
+
+```
+redis.clients.jedis.exceptions.JedisConnectionException:
+  Could not get a resource from the pool
+Caused by: java.util.NoSuchElementException: Timeout waiting for idle object
+```
+
+含义：池中的 maxTotal 个连接全部处于活跃状态，新线程在 maxWaitMillis 内没等到任何连接归还。
+
+#### 第一步：看连接池监控指标，确认是哪种耗尽
+
+```java
+GenericObjectPoolConfig<?> config = ...;
+GenericObjectPool<Jedis> internalPool = ((JedisPool) pool).getResourcePoolInternal();
+
+// 实时打印连接池状态
+System.out.println("活跃连接 active: " + internalPool.getNumActive());
+System.out.println("空闲连接 idle:   " + internalPool.getNumIdle());
+System.out.println("等待线程 waiters: " + internalPool.getNumWaiters());
+```
+
+| 现象 | 判断 |
+|------|------|
+| `active = maxTotal` 且持续不降 | 连接被借走后不归还（泄漏或慢操作） |
+| `waiters` 持续增长 | 并发量超过池容量或处理变慢 |
+| Redis 端 `connected_clients` 很高 | 多应用连接数之和超限或有连接泄漏 |
+
+#### 第二步：Redis 端查看连接情况
+
+```bash
+# 当前连接总数
+redis-cli INFO clients | grep connected_clients
+
+# 查看所有连接的详情
+redis-cli CLIENT LIST
+# addr=10.0.0.1:52340 age=3600 idle=3600 cmd=get   ← age/idle 很大：长期空闲或泄漏
+# addr=10.0.0.2:52341 age=10 idle=0 cmd=blpop       ← 阻塞命令占着连接
+
+# 找出空闲时间最长的连接（可能是泄漏连接）
+redis-cli CLIENT LIST | sort -t= -k5 -n | tail -20
+```
+
+#### 第三步：按常见原因逐一排查
+
+**原因 1：连接泄漏（最常见）**
+
+```java
+// 排查代码中所有 getResource()，确认每个都有配对 close
+// 高危写法：异常分支漏归还
+Jedis jedis = pool.getResource();
+try {
+    jedis.set("k", "v");
+    // ❌ 这里 return 或抛异常，下面的 close() 不执行
+} finally {
+    jedis.close();   // 必须放在 finally
+}
+```
+
+特征：`active` 数只增不减，重启应用后暂时恢复，一段时间后再次耗尽。
+
+**原因 2：慢命令占用连接过久**
+
+```bash
+# 慢查询会让连接长时间处于活跃状态
+redis-cli SLOWLOG GET 10
+redis-cli --bigkeys
+```
+
+典型场景：执行 `KEYS *`、大 key 的 `HGETALL`、`SMEMBERS`，连接被占用数秒。
+
+**原因 3：阻塞式命令不返回**
+
+```bash
+# BLPOP、BRPOP、SUBSCRIBE 会长期占用连接
+# 连接池连接数会被这些命令慢慢吃光
+```
+
+**原因 4：池容量配置过小**
+
+```java
+// 临时应急：调大连接池
+config.setMaxTotal(200);
+config.setMaxIdle(100);
+config.setMaxWaitMillis(3000);
+```
+
+注意：单纯调大不是根本方案，连接数过大也会增加 Redis 端压力，需结合 QPS 估算。
+
+**原因 5：Redis 端响应变慢或网络问题**
+
+```bash
+# 查看 Redis 延迟
+redis-cli --latency-history -i 1
+
+# 检查是否开启了持久化导致卡顿
+redis-cli INFO persistence   # rdb_bgsave_in_progress
+```
+
+#### 第四步：临时止血与根治
+
+```
+临时止血：
+  1. 重启应用实例（清空泄漏连接）
+  2. 临时调大 maxTotal / maxWaitMillis
+  3. Redis 端用 CLIENT KILL 杀掉异常空闲连接：
+     redis-cli CLIENT KILL ADDR 10.0.0.1:52340
+
+根治：
+  1. 修复连接泄漏：统一 try-with-resources
+  2. 禁用 KEYS、大 key 全量读取等慢操作
+  3. 阻塞命令（BLPOP/SUB）使用独立连接，不进通用池
+  4. 接入监控：持续采集 active/idle/waiters 指标并告警
 ```
 
 ### 连接数怎么估算

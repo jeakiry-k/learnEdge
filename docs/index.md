@@ -139,17 +139,28 @@ html, body {
   color: var(--md-accent-fg-color);
 }
 
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .home { padding: 1rem; }
+  .li-tags { display: none; }
+}
+@media screen and (max-width: 480px) {
+  .home { padding: 0.85rem; }
+  .home-title { font-size: 1.1rem; }
+  .li-cat { display: none; }
+  .li-link:hover { padding-left: 0; }
+}
+
 </style>
 
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>7</strong> 篇 · 4 分类 · 最近 2026-09-28</span>
+    <span class="home-stats">共 <strong>6</strong> 篇 · 4 分类 · 最近 2026-09-28</span>
   </div>
   <ul class="home-list">
 <li><a href="browser-network/tcp-handshake-farewell" class="li-link"><span class="li-title">TCP 三次握手与四次挥手</span><span class="li-tags"><span class="li-tag">TCP</span><span class="li-tag">网络</span><span class="li-tag">协议</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
 <li><a href="redis/connection-pool" class="li-link"><span class="li-title">Redis 连接池</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">连接池</span><span class="li-tag">性能优化</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
-<li><a href="redis/common-exceptions" class="li-link"><span class="li-title">Redis 常见异常</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">异常</span><span class="li-tag">排查</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
 <li><a href="mysql/field-types" class="li-link"><span class="li-title">MySQL 字段类型与存储空间估算</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">数据类型</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>
 <li><a href="redis/cache-issues" class="li-link"><span class="li-title">缓存穿透、击穿、雪崩</span><span class="li-tags"><span class="li-tag">缓存</span><span class="li-tag">Redis</span><span class="li-tag">高并发</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
 <li><a href="browser-network/http-caching" class="li-link"><span class="li-title">HTTP 缓存策略</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">缓存</span><span class="li-tag">性能</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>

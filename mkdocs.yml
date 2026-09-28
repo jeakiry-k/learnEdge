@@ -39,8 +39,6 @@ plugins:
 
 nav:
   - 首页: index.md
-  - JavaScript 分类: category/javascript/index.md
-  - CSS 分类: category/css/index.md
   - 浏览器与网络分类: category/browser-network/index.md
   - Redis 分类: category/redis/index.md
   - MySQL 分类: category/mysql/index.md
@@ -49,7 +47,6 @@ nav:
       - MySQL 字段类型与存储空间估算: mysql/field-types.md
       - 缓存穿透、击穿、雪崩: redis/cache-issues.md
       - Redis 连接池: redis/connection-pool.md
-      - Redis 常见异常: redis/common-exceptions.md
       - TCP 三次握手与四次挥手: browser-network/tcp-handshake-farewell.md
       - HTTP 缓存策略: browser-network/http-caching.md
       - 短链服务系统设计: engineering/url-shortener.md
