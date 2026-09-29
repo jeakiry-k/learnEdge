@@ -84,12 +84,17 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 200px;
+      max-width: 600px;
       flex: 1;
       min-width: 0;
     }
     .md-header__topic[data-md-component="header-topic"] .md-ellipsis {
       display: inline;
+    }
+
+    /* 首页：header 中间标题文案置空，但保留占位以维持布局 */
+    body.is-home .md-header__topic[data-md-component="header-topic"] .md-ellipsis {
+      visibility: hidden;
     }
 
     /* 隐藏 palette 和 source */
@@ -211,14 +216,16 @@
     /* ===== 移动端适配 ===== */
     /* ≤1220px：对齐 Material 抽屉行为，恢复汉堡按钮 + 主导航抽屉 */
     @media screen and (max-width: 76.234375em) {
-      .md-header__button.md-icon[for="__drawer"] { display: inline-flex !important; }
+      .md-header__button.md-icon[for="__drawer"] { display: inline-flex !important; order: -1; }
+      .md-header__button.md-logo { order: 0; }
       .md-sidebar--primary { display: block !important; }
     }
 
     /* ≤960px：隐藏 TOC，压缩留白，表格/代码横向滚动 */
     @media screen and (max-width: 960px) {
       .md-sidebar--secondary { display: none !important; }
-      .md-header__button.md-logo { width: auto; min-width: 0; }
+      /* 移动端题目页：隐藏 logo，只展示汉堡菜单 */
+      body:not(.is-home) .md-header__button.md-logo { display: none !important; }
       .md-header__topic[data-md-component="header-topic"] { max-width: 40vw; }
       .md-content__inner { padding: 1.5rem 1rem 3rem; }
       .md-content h1 { font-size: 1.4rem; }
@@ -256,6 +263,22 @@
       // 2. 删除 aria-label="导航栏"
       var navs = document.querySelectorAll('[aria-label="导航栏"]');
       navs.forEach(function(n) { n.removeAttribute('aria-label'); });
+
+      // 2b. 首页：把 header 中间标题文案置空（保留布局，不影响搜索按钮位置）
+      var isHomepage = window.location.pathname === '/' || window.location.pathname.endsWith('/learnEdge/') || window.location.pathname.endsWith('/learnEdge');
+      if (isHomepage) {
+        document.body.classList.add('is-home');
+        var headerTopicEllipsis = document.querySelector('.md-header__topic[data-md-component="header-topic"] .md-ellipsis');
+        if (headerTopicEllipsis) {
+          headerTopicEllipsis.textContent = '';
+        }
+      }
+
+      // 2b. 移动端：把 __drawer 汉堡按钮移到 logo 前面（左侧）
+      var drawerBtn = document.querySelector('.md-header__button.md-icon[for="__drawer"]');
+      if (drawerBtn && logoBtn && drawerBtn !== logoBtn.previousElementSibling) {
+        headerInner.insertBefore(drawerBtn, logoBtn);
+      }
 
       // 3. 搜索框 + GitHub 放到右侧容器，搜索框在 GitHub 左侧 50px
       var searchForm = document.querySelector('.md-search');
