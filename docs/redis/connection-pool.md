@@ -15,7 +15,7 @@ tags: [Redis, 连接池, 性能优化]
 
 > 为什么需要 Redis 连接池？连接池的核心参数有哪些？如何调优？
 
-### 为什么需要连接池
+### 一、为什么需要连接池
 
 每次操作 Redis 都新建 TCP 连接，用完再关闭，开销巨大：
 
@@ -29,7 +29,7 @@ tags: [Redis, 连接池, 性能优化]
   省去了反复建连的开销
 ```
 
-### 连接池工作原理
+### 二、连接池工作原理
 
 连接池内部维护两个集合：**空闲连接集合**（idle）和**活跃连接集合**（active）。
 
@@ -117,7 +117,7 @@ config.setMinIdle(10);    // 保底 10 个空闲连接，掉下去自动补
 config.setMaxIdle(100);   // 归还时空闲已满 100 个 → 直接关闭，不入池
 ```
 
-### 连接池核心参数
+### 三、连接池核心参数
 
 以 Java 主流的 **Lettuce** 和 **Jedis** 为例：
 
@@ -168,7 +168,7 @@ spring:
 
 > Lettuce 基于 Netty 的异步非阻塞模型，单连接可被多线程共享，连接数需求通常比 Jedis 少。
 
-### 连接泄漏的常见原因
+### 四、连接泄漏的常见原因
 
 ```java
 // 错误：忘记归还连接（Jedis 未 try-with-resources）
@@ -182,7 +182,7 @@ try (Jedis jedis = pool.getResource()) {
 }
 ```
 
-### 连接池耗尽时如何排查
+### 五、连接池耗尽时如何排查
 
 报错特征：
 
@@ -316,7 +316,7 @@ redis-cli INFO persistence   # rdb_bgsave_in_progress
   4. 接入监控：持续采集 active/idle/waiters 指标并告警
 ```
 
-### 连接数怎么估算
+### 六、连接数怎么估算
 
 ```
 单个 Redis 实例最大连接数通常 10000（redis.conf maxclients）
@@ -376,7 +376,7 @@ redis-cli CLIENT LIST | grep -o 'addr=[^ ]*' \
 | 治本：代理收敛 | 多应用直连改为经代理层访问，由代理维护与 Redis 的少量长连接 |
 | 治理闲置 | `CONFIG SET timeout 300` 自动断开长期空闲连接（对阻塞命令无效） |
 
-### 连接池监控
+### 七、连接池监控
 
 ```java
 // Jedis 连接池监控
@@ -389,7 +389,7 @@ JedisPoolStats stats = pool.getPool().getStatistics();
 // connected_clients:15
 ```
 
-### 选型对比
+### 八、选型对比
 
 | | Jedis | Lettuce |
 |--|-------|---------|

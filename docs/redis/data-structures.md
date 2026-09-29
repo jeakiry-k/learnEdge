@@ -6,11 +6,9 @@ category: Redis
 tags: [Redis, 数据结构, 底层实现]
 ---
 
-## Redis 数据结构
-
 > Redis 支持多种数据结构，每种数据结构的底层实现和适用场景是什么？如何根据业务选择合适的数据结构？
 
-### 五大基础数据结构概览
+### 一、五大基础数据结构概览
 
 | 类型 | 底层实现 | 时间复杂度 | 典型场景 |
 |------|---------|-----------|---------|
@@ -22,7 +20,7 @@ tags: [Redis, 数据结构, 底层实现]
 
 ---
 
-### String
+### 二、String
 
 **底层实现：SDS（Simple Dynamic String）**
 
@@ -61,7 +59,7 @@ SET rate:limit:api 100 EX 60
 
 ---
 
-### Hash
+### 三、Hash
 
 **底层实现：ziplist / hashtable**
 
@@ -111,7 +109,7 @@ HINCRBY user:1 login_count 1
 
 ---
 
-### List
+### 四、List
 
 **底层实现：ziplist / quicklist**
 
@@ -149,7 +147,7 @@ LTRIM news:latest 0 99  # 只保留最近 100 条
 
 ---
 
-### Set
+### 五、Set
 
 **底层实现：intset / hashtable**
 
@@ -176,7 +174,7 @@ SISMEMBER post:1001:likes user1  # 是否已点赞
 
 ---
 
-### ZSet（Sorted Set）
+### 六、ZSet（Sorted Set）
 
 **底层实现：ziplist / skiplist + hashtable**
 
@@ -225,7 +223,7 @@ ZCARD rate:limit:user:1  # 统计1分钟内请求数
 
 ---
 
-### 底层数据结构详解
+### 七、底层数据结构详解
 
 #### ziplist（压缩列表）
 
@@ -259,7 +257,7 @@ typedef struct zskiplistNode {
 
 ---
 
-### 选型建议
+### 八、选型建议
 
 | 业务场景 | 推荐类型 | 原因 |
 |---------|---------|------|
@@ -274,7 +272,7 @@ typedef struct zskiplistNode {
 
 ---
 
-### 内存优化建议
+### 九、内存优化建议
 
 1. **小数据量用 ziplist**：控制字段数 < 512，值 < 64 字节
 2. **避免大 key**：单个 key 的 value 不超过 10KB
@@ -283,7 +281,7 @@ typedef struct zskiplistNode {
 
 ---
 
-### 面试常见陷阱
+### 十、面试常见陷阱
 
 #### 1. String 的 SDS 和普通字符串混淆
 
@@ -401,7 +399,7 @@ ziplist 的 entry 记录了前一个 entry 的长度（prevlen），如果前一
 
 ---
 
-### 面试要点
+### 十一、面试要点
 
 1. **五大类型**：String、Hash、List、Set、ZSet，各自的底层实现和适用场景
 2. **底层结构**：SDS、ziplist、quicklist、intset、skiplist 的特点

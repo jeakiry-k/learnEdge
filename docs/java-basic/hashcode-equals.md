@@ -6,11 +6,9 @@ category: Java基础
 tags: [Java, hashCode, equals, 哈希冲突]
 ---
 
-## hashCode 相等，equals 必须相等么？
-
 > hashCode 相等，equals 必须相等么？会带来什么问题？为什么？
 
-### 直接回答
+### 一、直接回答
 
 **不必须。** hashCode 相等，equals 不一定相等，这就是**哈希冲突**。
 
@@ -25,7 +23,7 @@ System.out.println(a.equals(b));   // false
 
 ---
 
-### 正确的关系
+### 二、正确的关系
 
 | 关系 | 是否成立 | 原因 |
 |------|---------|------|
@@ -34,7 +32,7 @@ System.out.println(a.equals(b));   // false
 
 ---
 
-### 为什么 equals 相等，hashCode 必须一致？
+### 三、为什么 equals 相等，hashCode 必须一致？
 
 **HashMap 的定位机制：**
 
@@ -80,7 +78,7 @@ map.get(p2);  // null！虽然 equals 相等，但 hashCode 不同，定位不�
 
 ---
 
-### 为什么 hashCode 相等，equals 不一定相等？
+### 四、为什么 hashCode 相等，equals 不一定相等？
 
 **鸽笼原理（抽屉原理）：**
 - `hashCode()` 返回 `int`，只有 2^32 ≈ 42 亿个可能值
@@ -93,7 +91,7 @@ map.get(p2);  // null！虽然 equals 相等，但 hashCode 不同，定位不�
 
 ---
 
-### 哈希冲突会带来什么问题？
+### 五、哈希冲突会带来什么问题？
 
 **HashMap 中的问题：**
 
@@ -113,7 +111,7 @@ map.get("Aa");  // 先定位桶，再遍历链表/红黑树，用 equals 比对
 
 ---
 
-### 如何写好 hashCode？
+### 六、如何写好 hashCode？
 
 ```java
 @Override
@@ -137,7 +135,7 @@ public int hashCode() {
 
 ---
 
-### 面试考察点
+### 七、面试考察点
 
 1. **正确理解关系**：equals 相等 → hashCode 必须相等（反之不成立）
 2. **知道哈希冲突**：不同对象可能有相同 hashCode

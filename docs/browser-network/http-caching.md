@@ -176,7 +176,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 **实际项目中的主流方案：** 静态资源靠 Nginx + hash 文件名 + 长强缓存；API 数据靠 Redis 缓存 + 主动失效，协商缓存更多是理论知识点。
 
-### 最佳实践
+### 五、最佳实践
 
 - HTML 文件：`Cache-Control: no-cache`（每次协商）
 - 带 hash 的静态资源：`Cache-Control: max-age=31536000`（强缓存一年）

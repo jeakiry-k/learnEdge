@@ -216,9 +216,29 @@
     /* ===== 移动端适配 ===== */
     /* ≤1220px：对齐 Material 抽屉行为，恢复汉堡按钮 + 主导航抽屉 */
     @media screen and (max-width: 76.234375em) {
-      .md-header__button.md-icon[for="__drawer"] { display: inline-flex !important; order: -1; }
+      .md-header__inner {
+        padding: 0 0.75rem !important;
+      }
+      .md-header__button.md-icon[for="__drawer"] {
+        display: inline-flex !important;
+        order: -1;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
       .md-header__button.md-logo { order: 0; }
       .md-sidebar--primary { display: block !important; }
+      /* 右侧容器与左侧汉堡按钮对称 */
+      .header-right {
+        gap: 6px;
+      }
+      .gh-link {
+        width: 40px;
+        height: 40px;
+      }
     }
 
     /* ≤960px：隐藏 TOC，压缩留白，表格/代码横向滚动 */
@@ -226,6 +246,20 @@
       .md-sidebar--secondary { display: none !important; }
       /* 移动端题目页：隐藏 logo，只展示汉堡菜单 */
       body:not(.is-home) .md-header__button.md-logo { display: none !important; }
+      /* 移动端：搜索框改为图标按钮，与左侧汉堡按钮对称 */
+      .header-search .md-search__form { display: none !important; }
+      .header-search .md-search__icon {
+        display: inline-flex !important;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .header-search .md-search__icon svg {
+        width: 20px;
+        height: 20px;
+      }
       .md-header__topic[data-md-component="header-topic"] { max-width: 40vw; }
       .md-content__inner { padding: 1.5rem 1rem 3rem; }
       .md-content h1 { font-size: 1.4rem; }
@@ -272,6 +306,28 @@
         if (headerTopicEllipsis) {
           headerTopicEllipsis.textContent = '';
         }
+        // 首页 drawer：删除"题目列表"项
+        setTimeout(function() {
+          var homeSidebar = document.querySelector('.md-sidebar--primary');
+          if (!homeSidebar) return;
+          var homeRootNav = homeSidebar.querySelector('.md-nav--primary');
+          if (!homeRootNav) return;
+          var homeRootList = homeRootNav.querySelector(':scope > .md-nav__list');
+          if (!homeRootList) return;
+          for (var i = 0; i < homeRootList.children.length; i++) {
+            var homeItem = homeRootList.children[i];
+            if (!homeItem.classList.contains('md-nav__item')) continue;
+            // "题目列表"是包含嵌套 nav 的项
+            if (homeItem.querySelector(':scope > .md-nav')) {
+              homeItem.style.display = 'none';
+            }
+            // 隐藏"首页"项（第一个无嵌套 nav 的项）
+            var homeLink = homeItem.querySelector(':scope > .md-nav__link');
+            if (homeLink && homeLink.textContent.trim() === '首页') {
+              homeItem.style.display = 'none';
+            }
+          }
+        }, 200);
       }
 
       // 2b. 移动端：把 __drawer 汉堡按钮移到 logo 前面（左侧）
@@ -319,6 +375,136 @@
           }, 150);
         });
       });
+
+      // 5. 移动端题目详情页：drawer 展示当前分类标题 + 该分类下所有题目 + 返回按钮
+      setTimeout(function() {
+        var isHome = document.body.classList.contains('is-home');
+        var isCategoryPage = window.location.pathname.indexOf('/category/') !== -1;
+        if (isHome || isCategoryPage) return;
+
+        var primarySidebar = document.querySelector('.md-sidebar--primary');
+        if (!primarySidebar) return;
+
+        // 分类目录名 → 中文名映射
+        var categoryMap = {
+          'mysql': 'MySQL 分类',
+          'java-basic': 'Java 基础分类',
+          'redis': 'Redis 分类',
+          'browser-network': '浏览器与网络分类',
+          'engineering': '工程化分类'
+        };
+
+        // 从当前 URL 提取分类目录名
+        var path = window.location.pathname;
+        var match = path.match(/\/(mysql|java-basic|redis|browser-network|engineering)\//);
+        if (!match) return;
+        var currentCategory = match[1];
+        var categoryName = categoryMap[currentCategory] || currentCategory;
+
+        // 找到"题目列表"section，收集所有题目链接
+        var rootNav = primarySidebar.querySelector('.md-nav--primary');
+        if (!rootNav) return;
+        var rootList = rootNav.querySelector(':scope > .md-nav__list');
+        if (!rootList) return;
+
+        var allQuestions = [];
+        for (var i = 0; i < rootList.children.length; i++) {
+          var item = rootList.children[i];
+          if (!item.classList.contains('md-nav__item')) continue;
+          var nestedNav = item.querySelector(':scope > .md-nav');
+          if (!nestedNav) continue;
+
+          var questionList = nestedNav.querySelector(':scope > .md-nav__list');
+          if (!questionList) continue;
+
+          for (var j = 0; j < questionList.children.length; j++) {
+            var qItem = questionList.children[j];
+            if (!qItem.classList.contains('md-nav__item')) continue;
+            // 获取题目链接（排除 TOC label 链接）
+            var qLinks = qItem.querySelectorAll(':scope > .md-nav__link');
+            for (var k = 0; k < qLinks.length; k++) {
+              var qLink = qLinks[k];
+              if (qLink.classList.contains('md-nav__link--active') && qLink.getAttribute('for') === '__toc') continue;
+              var href = qLink.getAttribute('href') || '';
+              var text = qLink.textContent.trim();
+              var isActive = qLink.classList.contains('md-nav__link--active');
+              if (href && href.indexOf('#') !== 0) {
+                // 将相对路径解析为绝对路径，用于判断分类
+                var absUrl = new URL(href, window.location.href).pathname;
+                allQuestions.push({ href: href, text: text, isActive: isActive, absPath: absUrl });
+              }
+            }
+          }
+        }
+
+        // 筛选当前分类的题目（用解析后的绝对路径匹配）
+        var categoryQuestions = allQuestions.filter(function(q) {
+          return q.absPath.indexOf('/' + currentCategory + '/') !== -1 ||
+                 q.isActive;
+        });
+
+        if (categoryQuestions.length === 0) return;
+
+        // 构建分类页的 URL
+        var categoryUrl = '../../category/' + currentCategory + '/';
+
+        // 隐藏原始导航内容
+        rootNav.style.display = 'none';
+
+        // 构建新的 drawer 内容
+        var sidebarInner = primarySidebar.querySelector('.md-sidebar__inner');
+        if (!sidebarInner) return;
+
+        // 清空并重建
+        sidebarInner.innerHTML = '';
+
+        var newNav = document.createElement('nav');
+        newNav.className = 'md-nav md-nav--primary';
+        newNav.setAttribute('data-md-level', '0');
+
+        // 顶部 logo（JAVA题库 > 当前分类，与 header 同高）
+        // JAVA题库点击跳转首页，分类名称点击跳转分类页
+        var logoBar = document.createElement('div');
+        logoBar.className = 'md-nav__title drawer-logo';
+        logoBar.style.cssText = 'display:flex;align-items:center;gap:0.3rem;height:48px;padding:0 0.8rem;border-bottom:1px solid var(--md-default-fg-color--lightest);font-size:0.82rem;white-space:nowrap;overflow:hidden;';
+
+        var logoA = document.createElement('a');
+        logoA.href = '../..';
+        logoA.style.cssText = 'display:flex;align-items:center;text-decoration:none;flex-shrink:0;font-weight:700;color:var(--md-default-fg-color);';
+        logoA.textContent = '首页';
+        logoBar.appendChild(logoA);
+
+        var sep = document.createElement('span');
+        sep.style.cssText = 'color:var(--md-default-fg-color--lighter);flex-shrink:0;';
+        sep.textContent = '>';
+        logoBar.appendChild(sep);
+
+        var catA = document.createElement('a');
+        catA.href = categoryUrl;
+        catA.style.cssText = 'color:var(--md-default-fg-color--light);text-decoration:none;overflow:hidden;text-overflow:ellipsis;';
+        catA.textContent = categoryName;
+        logoBar.appendChild(catA);
+
+        newNav.appendChild(logoBar);
+
+        // 题目列表
+        var ul = document.createElement('ul');
+        ul.className = 'md-nav__list';
+
+        categoryQuestions.forEach(function(q) {
+          var li = document.createElement('li');
+          li.className = 'md-nav__item';
+          var a = document.createElement('a');
+          a.href = q.href;
+          a.className = 'md-nav__link' + (q.isActive ? ' md-nav__link--active' : '');
+          a.innerHTML = '<span class="md-ellipsis">' + q.text + '</span>';
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+
+        newNav.appendChild(ul);
+        sidebarInner.appendChild(newNav);
+      }, 200);
     });
   </script>
 {% endblock %}
