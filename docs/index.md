@@ -156,9 +156,12 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>6</strong> 篇 · 4 分类 · 最近 2026-09-28</span>
+    <span class="home-stats">共 <strong>9</strong> 篇 · 5 分类 · 最近 2026-09-29</span>
   </div>
   <ul class="home-list">
+<li><a href="java-basic/hashcode-equals" class="li-link"><span class="li-title">hashCode 相等，equals 必须相等么？</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">hashCode</span><span class="li-tag">equals</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="redis/data-structures" class="li-link"><span class="li-title">Redis 数据结构</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">数据结构</span><span class="li-tag">底层实现</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="browser-network/http-connection-pool" class="li-link"><span class="li-title">长连接 vs 短连接 & HTTP 连接池</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">长连接</span><span class="li-tag">连接池</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
 <li><a href="browser-network/tcp-handshake-farewell" class="li-link"><span class="li-title">TCP 三次握手与四次挥手</span><span class="li-tags"><span class="li-tag">TCP</span><span class="li-tag">网络</span><span class="li-tag">协议</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
 <li><a href="redis/connection-pool" class="li-link"><span class="li-title">Redis 连接池</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">连接池</span><span class="li-tag">性能优化</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
 <li><a href="mysql/field-types" class="li-link"><span class="li-title">MySQL 字段类型与存储空间估算</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">数据类型</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>

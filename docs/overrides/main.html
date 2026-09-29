@@ -64,11 +64,20 @@
       align-items: center;
       width: 100%;
     }
+    /* 第一个 topic（站点名）display:none 时仍绝对定位占位，
+       与第二个 topic（页标题）堆叠 → H5 窄屏文字重叠。
+       强制去掉绝对定位并禁用 Material 的滑入滑出动画。 */
+    .md-header__topic {
+      position: static !important;
+      transform: none !important;
+      transition: none !important;
+    }
     .md-header__topic:not([data-md-component="header-topic"]) {
       display: none !important;
     }
     .md-header__topic[data-md-component="header-topic"] {
       display: inline-block !important;
+      opacity: 1 !important;
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--md-default-fg-color);
@@ -76,6 +85,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 200px;
+      flex: 1;
+      min-width: 0;
     }
     .md-header__topic[data-md-component="header-topic"] .md-ellipsis {
       display: inline;
