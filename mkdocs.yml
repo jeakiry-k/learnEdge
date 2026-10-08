@@ -45,6 +45,7 @@ nav:
   - 工程化分类: category/engineering/index.md
   - Java 基础分类: category/java-basic/index.md
   - 题目列表:
+      - 线程池工作原理: java-basic/thread-pool.md
       - MySQL 中 IP 地址的存储与转换: mysql/ip-storage.md
       - hashCode 相等，equals 必须相等么: java-basic/hashcode-equals.md
       - Redis 数据结构: redis/data-structures.md

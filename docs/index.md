@@ -156,9 +156,10 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>10</strong> 篇 · 5 分类 · 最近 2026-10-08</span>
+    <span class="home-stats">共 <strong>11</strong> 篇 · 5 分类 · 最近 2026-10-08</span>
   </div>
   <ul class="home-list">
+<li><a href="java-basic/thread-pool" class="li-link"><span class="li-title">线程池工作原理</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程池</span><span class="li-tag">并发</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="mysql/ip-storage" class="li-link"><span class="li-title">MySQL 中 IP 地址的存储与转换</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">IP 地址</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>
 <li><a href="java-basic/hashcode-equals" class="li-link"><span class="li-title">hashCode 相等，equals 必须相等么？</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">hashCode</span><span class="li-tag">equals</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="redis/data-structures" class="li-link"><span class="li-title">Redis 数据结构</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">数据结构</span><span class="li-tag">底层实现</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>

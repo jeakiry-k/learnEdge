@@ -92,9 +92,10 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>Java 基础</h1>
-    <span class="count">共 1 篇</span>
+    <span class="count">共 2 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../java-basic/thread-pool"><span class="item-title">线程池工作原理</span><span class="item-tags"><span class="tag">Java</span><span class="tag">线程池</span><span class="tag">并发</span></span><span class="item-date">2026-10-08</span></a></li>
 <li><a href="../../java-basic/hashcode-equals"><span class="item-title">hashCode 相等，equals 必须相等么？</span><span class="item-tags"><span class="tag">Java</span><span class="tag">hashCode</span><span class="tag">equals</span></span><span class="item-date">2026-09-29</span></a></li>
   </ul>
 </div>
