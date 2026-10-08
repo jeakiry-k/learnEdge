@@ -45,12 +45,13 @@ nav:
   - 工程化分类: category/engineering/index.md
   - Java 基础分类: category/java-basic/index.md
   - 题目列表:
-      - MySQL 字段类型与存储空间估算: mysql/field-types.md
+      - MySQL 中 IP 地址的存储与转换: mysql/ip-storage.md
       - hashCode 相等，equals 必须相等么: java-basic/hashcode-equals.md
+      - Redis 数据结构: redis/data-structures.md
+      - 长连接 vs 短连接 & HTTP 连接池: browser-network/http-connection-pool.md
+      - MySQL 字段类型与存储空间估算: mysql/field-types.md
       - 缓存穿透、击穿、雪崩: redis/cache-issues.md
       - Redis 连接池: redis/connection-pool.md
-      - Redis 数据结构: redis/data-structures.md
       - TCP 三次握手与四次挥手: browser-network/tcp-handshake-farewell.md
-      - HTTP 缓存策略: browser-network/http-caching.md
-      - 长连接 vs 短连接 & HTTP 连接池: browser-network/http-connection-pool.md
       - 短链服务系统设计: engineering/url-shortener.md
+      - HTTP 缓存策略: browser-network/http-caching.md

@@ -92,9 +92,10 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>MySQL</h1>
-    <span class="count">共 1 篇</span>
+    <span class="count">共 2 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../mysql/ip-storage"><span class="item-title">MySQL 中 IP 地址的存储与转换</span><span class="item-tags"><span class="tag">MySQL</span><span class="tag">存储</span><span class="tag">IP 地址</span></span><span class="item-date">2026-10-08</span></a></li>
 <li><a href="../../mysql/field-types"><span class="item-title">MySQL 字段类型与存储空间估算</span><span class="item-tags"><span class="tag">MySQL</span><span class="tag">存储</span><span class="tag">数据类型</span></span><span class="item-date">2026-09-28</span></a></li>
   </ul>
 </div>
