@@ -18,7 +18,7 @@ JAVA 面试题与知识点合集，基于 MkDocs Material 构建，自动部署�
 
 | 分类 | 内容 |
 |------|------|
-| [Java 基础](https://jeakiry-k.github.io/learnEdge/category/java-basic/) | 单例模式、线程池工作原理、hashCode 与 equals |
+| [Java 基础](https://jeakiry-k.github.io/learnEdge/category/java-basic/) | 单例模式、线程池工作原理、== 和 equals 的区别 |
 | [浏览器与网络](https://jeakiry-k.github.io/learnEdge/category/browser-network/) | TCP 三次握手与四次挥手、HTTP 缓存策略、长连接 vs 短连接 |
 | [Redis](https://jeakiry-k.github.io/learnEdge/category/redis/) | 数据结构、连接池、缓存穿透/击穿/雪崩 |
 | [MySQL](https://jeakiry-k.github.io/learnEdge/category/mysql/) | 字段类型与存储空间估算、IP 地址的存储与转换 |

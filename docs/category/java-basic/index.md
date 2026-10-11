@@ -97,6 +97,6 @@ hide:
   <ul class="category-list">
 <li><a href="../../java-basic/singleton"><span class="item-title">Java 单例模式的几种实现方式</span><span class="item-tags"><span class="tag">Java</span><span class="tag">单例</span><span class="tag">设计模式</span></span><span class="item-date">2026-10-11</span></a></li>
 <li><a href="../../java-basic/thread-pool"><span class="item-title">线程池工作原理</span><span class="item-tags"><span class="tag">Java</span><span class="tag">线程池</span><span class="tag">并发</span></span><span class="item-date">2026-10-08</span></a></li>
-<li><a href="../../java-basic/hashcode-equals"><span class="item-title">hashCode 相等，equals 必须相等么？</span><span class="item-tags"><span class="tag">Java</span><span class="tag">hashCode</span><span class="tag">equals</span></span><span class="item-date">2026-09-29</span></a></li>
+<li><a href="../../java-basic/hashcode-equals"><span class="item-title">== 和 equals 的区别</span><span class="item-tags"><span class="tag">Java</span><span class="tag">==</span><span class="tag">equals</span><span class="tag">hashCode</span></span><span class="item-date">2026-09-29</span></a></li>
   </ul>
 </div>

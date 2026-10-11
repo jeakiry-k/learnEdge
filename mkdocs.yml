@@ -48,7 +48,7 @@ nav:
       - Java 单例模式的几种实现方式: java-basic/singleton.md
       - 线程池工作原理: java-basic/thread-pool.md
       - MySQL 中 IP 地址的存储与转换: mysql/ip-storage.md
-      - hashCode 相等，equals 必须相等么: java-basic/hashcode-equals.md
+      - == 和 equals 的区别: java-basic/hashcode-equals.md
       - Redis 数据结构: redis/data-structures.md
       - 长连接 vs 短连接 & HTTP 连接池: browser-network/http-connection-pool.md
       - MySQL 字段类型与存储空间估算: mysql/field-types.md

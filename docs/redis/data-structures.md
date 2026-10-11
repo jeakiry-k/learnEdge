@@ -6,6 +6,14 @@ category: Redis
 tags: [Redis, 数据结构, 底层实现]
 ---
 
+# Redis 数据结构
+
+<div class="question-tags">
+  <span class="question-tag">Redis</span>
+  <span class="question-tag">数据结构</span>
+  <span class="question-tag">底层实现</span>
+</div>
+
 > Redis 支持多种数据结构，每种数据结构的底层实现和适用场景是什么？如何根据业务选择合适的数据结构？
 
 ### 一、五大基础数据结构概览
