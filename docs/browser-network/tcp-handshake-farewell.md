@@ -34,19 +34,36 @@ tags: [TCP, 网络, 协议]
 
 #### 为什么是三次，不是两次？
 
-**两次握手的致命问题：** 服务端无法确认客户端的 SYN 是「当前请求」还是「历史迟到的报文」。
+**核心：连接建立必须让「双方都确认对方的收发能力」。**
+
+两次握手（客户端发 SYN，服务端回 SYN+ACK）只能确认到这一步：
 
 ```
-场景：两次握手下，迟到的旧 SYN 导致服务端误开连接
+第 1 次 SYN（客户端 → 服务端）：
+  服务端确认：客户端「能发送」✓
 
-1. 客户端发 SYN(seq=100)，网络拥塞，报文滞留
-2. 客户端超时，发新 SYN(seq=200)，正常建立连接、传数据、关闭
-3. 旧的 SYN(seq=100) 终于到达服务端
-4. 两次握手 → 服务端直接返回 ACK，连接建立 → 浪费资源等待永不来的数据
-   三次握手 → 服务端返回 SYN+ACK，客户端发现 seq 不对，不回 ACK → 连接不会建立
+第 2 次 SYN+ACK（服务端 → 客户端）：
+  客户端确认：服务端「能发送」✓、「能接收」✓
+
+缺少第 3 次：
+  服务端仍无法确认客户端「能接收」✗  ← 关键缺口
 ```
 
-> 一句话：三次握手保证**双方都确认了对方的接收能力**——第三次 ACK 证明客户端确实收到了服务端的 SYN。
+所以必须再有第 3 次 ACK（客户端 → 服务端），让服务端确认客户端确实收到了自己的 SYN、具备接收能力——**这就是为什么缺一不可**。
+
+> 教材（RFC 793 / 《计算机网络》）给出的标准解释是「防止已失效的连接请求报文段（历史 SYN）突然传送到服务端，产生错误」。它与「确认收发能力」本质是同一件事的两个角度：
+>
+> ```
+> 场景：迟到的旧 SYN 导致服务端误开连接
+>
+> 1. 客户端发 SYN(seq=100)，网络拥塞，报文滞留
+> 2. 客户端超时，发新 SYN(seq=200)，正常建立连接、传数据、关闭
+> 3. 旧的 SYN(seq=100) 终于到达服务端
+> 4. 两次握手 → 服务端收到旧 SYN 直接回 SYN+ACK 并进入已连接状态，白白等待
+>    三次握手 → 服务端回 SYN+ACK，客户端发现 ack 号非预期，不回 ACK → 连接不会建立
+> ```
+
+> 一句话总结：三次握手让**双方都确认了对方的收发能力**，同时验证对方是「当前」而非「历史」连接。
 
 #### 为什么不是四次？
 
@@ -64,22 +81,24 @@ tags: [TCP, 网络, 协议]
 
 ### 二、四次挥手（断开连接）
 
+> TCP 是全双工的，**任何一方都可以主动发起关闭**（发送 FIN），并不局限于客户端。下面以「主动关闭方 / 被动关闭方」描述，避免与客户端/服务端角色混淆。
+
 ```
-客户端                    服务端
+主动关闭方                被动关闭方
   │                          │
-  │ ── FIN, seq=u ────────→  │   第 1 次：客户端说"我没有数据了"
-  │                          │   （客户端进入 FIN_WAIT_1）
+  │ ── FIN, seq=u ────────→  │   第 1 次：主动方说"我没有数据了"
+  │                          │   （主动方进入 FIN_WAIT_1）
   │                          │
-  │ ←── ACK, ack=u+1 ──────  │   第 2 次：服务端说"收到"
-  │                          │   （服务端进入 CLOSE_WAIT，客户端进入 FIN_WAIT_2）
-  │                          │   ← 服务端可能还有未发完的数据
+  │ ←── ACK, ack=u+1 ──────  │   第 2 次：被动方说"收到"
+  │                          │   （被动方进入 CLOSE_WAIT，主动方进入 FIN_WAIT_2）
+  │                          │   ← 被动方可能还有未发完的数据
   │ ←── 数据传输 ───────────  │
   │                          │
-  │ ←── FIN, seq=v ─────────  │   第 3 次：服务端说"我也没数据了"
-  │                          │   （服务端进入 LAST_ACK）
+  │ ←── FIN, seq=v ─────────  │   第 3 次：被动方说"我也没数据了"
+  │                          │   （被动方进入 LAST_ACK）
   │                          │
-  │ ── ACK, ack=v+1 ──────→  │   第 4 次：客户端说"收到，再见"
-  │                          │   （客户端进入 TIME_WAIT，等待 2MSL 后关闭）
+  │ ── ACK, ack=v+1 ──────→  │   第 4 次：主动方说"收到，再见"
+  │                          │   （主动方进入 TIME_WAIT，等待 2MSL 后关闭）
 ```
 
 #### 为什么挥手是四次，不是三次？
@@ -91,7 +110,7 @@ tags: [TCP, 网络, 协议]
   服务端的 SYN 和 ACK 可以合并成一次发送（SYN+ACK）→ 省一次 → 三次
 
 断开连接时：
-  服务端收到客户端的 FIN 后，可能还有数据没发完
+  被动方收到主动方的 FIN 后，可能还有数据没发完
   → 必须先回 ACK 确认收到 FIN（第 2 次）
   → 继续发剩余数据
   → 数据发完后才能发自己的 FIN（第 3 次）
@@ -105,7 +124,7 @@ MSL = Maximum Segment Lifetime，报文最大生存时间（Linux 默认 30s）
 
 等待 2MSL 的原因：
   1. 保证最后一个 ACK 能到达对端
-     → 如果 ACK 丢失，服务端会重发 FIN，客户端还能收到并重发 ACK
+     → 如果 ACK 丢失，被动方会重发 FIN，主动方还能收到并重发 ACK
   2. 让本次连接的所有报文都从网络中消失
      → 防止迟到的报文影响下一个相同四元组的新连接
 ```
@@ -114,12 +133,14 @@ MSL = Maximum Segment Lifetime，报文最大生存时间（Linux 默认 30s）
 
 ### 三、状态机速记
 
-| 阶段 | 客户端状态 | 服务端状态 |
-|------|-----------|-----------|
-| 握手 | SYN_SENT → ESTABLISHED | SYN_RCVD → ESTABLISHED |
-| 挥手 | FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED | CLOSE_WAIT → LAST_ACK → CLOSED |
+| 阶段 | 状态流转 |
+|------|---------|
+| 握手 | 客户端 `SYN_SENT → ESTABLISHED`；服务端 `SYN_RCVD → ESTABLISHED` |
+| 挥手 | 主动关闭方 `FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED`；被动关闭方 `CLOSE_WAIT → LAST_ACK → CLOSED` |
 
-> 面试高频考点：**CLOSE_WAIT** 大量出现 = 服务端代码忘了 close 连接；**TIME_WAIT** 大量出现 = 客户端频繁建断连接（短连接模式下常见）。
+> 挥手阶段的状态由「谁先发 FIN」决定，与客户端/服务端无关——客户端和服务端都可能当主动关闭方。
+
+> 面试高频考点：**CLOSE_WAIT** 大量出现 = 「收到对端 FIN 但应用没调 close」的一方（Web 场景通常是服务端，DB 连接场景则是 Java 应用）；**TIME_WAIT** 大量出现 = 主动先发 FIN 的一方（短连接客户端常见）。
 
 ---
 
@@ -146,7 +167,7 @@ HTTP/1.1 Keep-Alive：复用 TCP 连接
 #### 3. TIME_WAIT 过多怎么处理
 
 ```bash
-# 大量短连接 → 客户端堆积 TIME_WAIT
+# 大量短连接 → 主动关闭方（通常是客户端）堆积 TIME_WAIT
 # 查看当前 TIME_WAIT 数量
 netstat -n | grep TIME_WAIT | wc -l
 
@@ -163,7 +184,7 @@ sysctl -w net.ipv4.tcp_fin_timeout=15
 #### 4. CLOSE_WAIT 过多怎么排查
 
 ```bash
-# 大量 CLOSE_WAIT = 服务端代码漏了 close
+# 大量 CLOSE_WAIT = 收到对端 FIN、但本端代码漏了 close
 netstat -n | grep CLOSE_WAIT
 
 # 排查思路：
@@ -172,11 +193,16 @@ netstat -n | grep CLOSE_WAIT
 ```
 
 ```java
+// 角色：Java 应用 = 客户端，数据库 = 服务端
+// CLOSE_WAIT 出现在「收到 FIN 但未调 close」的一方
+// → 这里 DB 主动断连（如 MySQL wait_timeout 超时）发 FIN 给 Java
+// → CLOSE_WAIT 堆积在「Java 服务器」这一侧，而不是 DB 侧
+
 // 错误：异常时漏 close
 Connection conn = dataSource.getConnection();
 Statement stmt = conn.createStatement();
 stmt.execute("SELECT ...");
-// 如果上面抛异常，conn 永远不会 close → CLOSE_WAIT 堆积
+// 如果上面抛异常，conn 永远不会 close → Java 服务器 CLOSE_WAIT 堆积
 
 // 正确：try-with-resources 确保关闭
 try (Connection conn = dataSource.getConnection();
@@ -204,5 +230,6 @@ sysctl -w net.ipv4.tcp_syncookies=1
 | 为什么三次握手 | 确认双方收发能力，防止历史 SYN 误建连接 |
 | 为什么不是两次 | 服务端无法区分当前 SYN 和迟到的旧 SYN |
 | 为什么四次挥手 | 全双工，两个方向独立关闭，ACK 和 FIN 中间可能还有数据 |
+| 挥手谁先发起 | 任意一方都可主动发 FIN，不局限于客户端 |
 | 为什么 TIME_WAIT 等 2MSL | 保证 ACK 到达 + 让旧报文消失 |
 | 开发实践 | Keep-Alive 复用连接、连接池、排查 TIME_WAIT/CLOSE_WAIT 堆积、SYN Flood 防御 |
