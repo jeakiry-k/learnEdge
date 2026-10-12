@@ -14,7 +14,7 @@ tags: [HTTP, 长连接, 连接池, 性能]
   <span class="question-tag">性能</span>
 </div>
 
-> 长连接和短连接的区别是什么？HTTP 连接池解决了什么问题？
+> 长连接和短连接的区别是什么？HTTP 连接池解决了什么问题？HTTP/2 之后还需要连接池吗？
 
 ### 一、一句话对比
 
@@ -35,7 +35,7 @@ tags: [HTTP, 长连接, 连接池, 性能]
 
 ---
 
-### HTTP 各版本的连接行为
+### 二、HTTP 各版本的连接行为
 
 ```
 HTTP/1.0
@@ -49,14 +49,14 @@ HTTP/1.1（主流）
 
 HTTP/2
   单一 TCP 连接 + 多路复用（Stream）
-  一个连接上并发多个请求/响应，无队头阻塞
+  一个连接上并发多个请求/响应
 ```
 
 > HTTP/1.1 的 keep-alive 是**应用层约定**：TCP 连接本身没有「自动断开」的概念，是否断开由双方应用决定。
 
 ---
 
-### 为什么需要 HTTP 连接池
+### 三、为什么需要 HTTP 连接池
 
 #### 没有连接池会怎样
 
@@ -114,9 +114,9 @@ keep-alive 是**协议层允许复用**：服务端承诺「我不主动断，�
 
 ---
 
-#### HTTP/2 后还需要连接池吗？
+### 四、HTTP/2 后还需要连接池吗？
 
-**大部分场景不需要了**，HTTP/2 的多路复用（Multiplexing）从根本上改变了连接模型：
+**大部分场景不需要了**，HTTP/2 的多路复用从根本上改变了连接模型：
 
 ```
 HTTP/1.1（需要连接池）：
@@ -128,54 +128,6 @@ HTTP/2（单连接即可）：
   → 请求/响应通过 Stream ID 区分，互不阻塞
   → 理论上一个连接就够了，无需连接池
 ```
-
-##### HTTP/2 是否解决了队头阻塞
-
-**HTTP/1.1 的问题——应用层队头阻塞**：一个 TCP 连接上，请求必须串行排队，前一个请求的响应没回来，后面的请求就得干等。
-
-```
-HTTP/1.1 单连接：
-
-请求A ──────────────────────────►
-                                响应A ◄──────────
-请求B（等A的响应回来才能发）────────────────►
-                                              响应B ◄────
-请求C（等B）────────────────────────────────────►
-
-→ 如果响应A很慢（比如大文件），B和C全被堵住
-→ 浏览器只能对同一域名开 6 个 TCP 连接并行绕过
-```
-
-**HTTP/2 的解决方式**：通过 Stream ID + 二进制分帧，让多个请求/响应在同一个 TCP 连接上交错传输，**应用层队头阻塞消除**。
-
-```
-HTTP/2 单连接（多路复用）：
-
-请求A(Stream 1) ──► ┐
-请求B(Stream 3) ──► ├─ 同一个 TCP 连接上交错传输
-请求C(Stream 5) ──► ┘
-
-响应B ◄──  ┐
-响应A ◄──  ├─ 谁先处理完谁先回，互不阻塞
-响应C ◄──  ┘
-
-→ A 慢不影响 B、C，应用层队头阻塞消除
-```
-
-**但 TCP 层队头阻塞仍存在**：TCP 是字节流协议，要求数据按序交付。一个 TCP 包丢失，后面所有包都得等它重传，不管它们属于哪个 Stream。
-
-```
-TCP 层：
-
-Frame 1 ──► 丢失！
-Frame 2 ──► 到达，但 TCP 要求按序交付，卡在缓冲区等 Frame 1 重传
-Frame 3 ──► 到达，同样卡住
-
-→ Frame 1 重传成功后，2、3 才能被应用层读取
-→ 即使 Frame 2、3 属于不同的 Stream，也全被堵住
-```
-
-> 这就是 HTTP/3 用 QUIC（UDP）替代 TCP 的原因——QUIC 的 Stream 在传输层就独立，一个 Stream 丢包不影响其他 Stream。
 
 | 维度 | HTTP/1.1 + 连接池 | HTTP/2 |
 |------|-------------------|--------|
@@ -194,7 +146,7 @@ Frame 3 ──► 到达，同样卡住
 
 ---
 
-### 四、Java 如何支持 HTTP/2
+### 五、Java 如何支持 HTTP/2
 
 #### 服务端开启 HTTP/2
 
@@ -271,7 +223,7 @@ HttpClient client = HttpClient.newBuilder()
     .build();
 ```
 
-#### 为什么 HTTP/2 比 1.1 好很多，HTTP/1.1 仍是主流？
+#### 为什么 HTTP/2 好很多，HTTP/1.1 仍是主流？
 
 **HTTP/2 的优势：**
 
@@ -294,9 +246,9 @@ HttpClient client = HttpClient.newBuilder()
 
 ---
 
-#### Java 常见 HTTP 连接池
+### 六、Java 常见 HTTP 连接池与关键参数
 
-**Apache HttpClient**（最常用）
+#### Apache HttpClient（最常用）
 
 ```java
 PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
@@ -310,7 +262,7 @@ CloseableHttpClient httpClient = HttpClients.custom()
     .build();
 ```
 
-**OkHttp**
+#### OkHttp
 
 ```java
 OkHttpClient client = new OkHttpClient.Builder()
@@ -329,7 +281,7 @@ OkHttpClient client = new OkHttpClient.Builder()
 
 ---
 
-### 服务端 keep-alive 配置（Nginx）
+### 七、服务端 keep-alive 配置（Nginx）
 
 ```nginx
 http {
@@ -345,7 +297,7 @@ http {
 
 ---
 
-### TIME_WAIT 与连接池的关系
+### 八、TIME_WAIT 与连接池的关系
 
 高并发下短连接会产生大量 TIME_WAIT 状态连接（主动关闭方需等待 2MSL）：
 
@@ -361,7 +313,7 @@ QPS = 1000，每次请求一个短连接
 
 ---
 
-### 选型建议
+### 九、选型建议
 
 ```
 低 QPS / 定时任务 / 一次性调用  → 短连接即可，无需连接池
@@ -370,7 +322,7 @@ QPS = 1000，每次请求一个短连接
 实时双向通信（如推送、IM）       → WebSocket（应用层长连接）
 ```
 
-### 八、总结
+### 十、总结
 
 | 问题 | 答案 |
 |------|------|
@@ -378,4 +330,5 @@ QPS = 1000，每次请求一个短连接
 | HTTP 默认是什么 | HTTP/1.0 短连接，HTTP/1.1 起默认长连接（keep-alive） |
 | 为什么需要连接池 | 控制连接复用与上限，避免无限制建连和 TIME_WAIT 堆积 |
 | 连接池注意点 | 客户端空闲时间 < 服务端 keepalive_timeout，否则拿到死连接 |
+| HTTP/2 还需连接池吗 | 大部分不需要，单连接多路复用即可，降级/隔离场景仍可选 |
 | 高并发推荐 | HTTP/1.1 长连接 + 连接池，或 HTTP/2 多路复用 |
