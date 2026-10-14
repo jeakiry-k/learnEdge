@@ -156,9 +156,11 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>13</strong> 篇 · 5 分类 · 最近 2026-10-12</span>
+    <span class="home-stats">共 <strong>15</strong> 篇 · 5 分类 · 最近 2026-10-14</span>
   </div>
   <ul class="home-list">
+<li><a href="java-basic/io-multiplexing" class="li-link"><span class="li-title">IO 模型与多路复用：从 BIO 到 Reactor</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">IO多路复用</span><span class="li-tag">NIO</span><span class="li-tag">Reactor</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="redis/why-fast" class="li-link"><span class="li-title">Redis 为什么这么快：设计与实现</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">性能</span><span class="li-tag">设计</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
 <li><a href="java-basic/thread-states" class="li-link"><span class="li-title">Java 线程的六种状态与状态流转</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程</span><span class="li-tag">状态</span><span class="li-tag">并发</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="java-basic/singleton" class="li-link"><span class="li-title">Java 单例模式的几种实现方式</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">单例</span><span class="li-tag">设计模式</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="java-basic/thread-pool" class="li-link"><span class="li-title">线程池工作原理</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程池</span><span class="li-tag">并发</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>

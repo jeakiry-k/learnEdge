@@ -45,6 +45,8 @@ nav:
   - 工程化分类: category/engineering/index.md
   - Java 基础分类: category/java-basic/index.md
   - 题目列表:
+      - IO 模型与多路复用：从 BIO 到 Reactor: java-basic/io-multiplexing.md
+      - Redis 为什么这么快：设计与实现: redis/why-fast.md
       - Java 线程的六种状态与状态流转: java-basic/thread-states.md
       - Java 单例模式的几种实现方式: java-basic/singleton.md
       - 线程池工作原理: java-basic/thread-pool.md
