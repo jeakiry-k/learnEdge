@@ -60,3 +60,4 @@ nav:
       - TCP 三次握手与四次挥手: browser-network/tcp-handshake-farewell.md
       - 短链服务系统设计: engineering/url-shortener.md
       - HTTP 缓存策略: browser-network/http-caching.md
+      - 请求的幂等性如何保证: engineering/idempotency.md

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 285" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>幂等与非幂等对比</title>
+<desc>非幂等接口重复请求会重复扣款，幂等接口重复请求只生效一次</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="170" y="30" text-anchor="middle" dominant-baseline="central" fill="#993C1D">非幂等: 重发几次就生效几次</text>
+
+<rect x="30" y="48" width="88" height="32" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="74" y="64" text-anchor="middle" dominant-baseline="central" fill="#712B13">请求 1</text>
+<rect x="126" y="48" width="88" height="32" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="170" y="64" text-anchor="middle" dominant-baseline="central" fill="#712B13">请求 2</text>
+<rect x="222" y="48" width="88" height="32" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="266" y="64" text-anchor="middle" dominant-baseline="central" fill="#712B13">请求 3</text>
+
+<path d="M74 80 L74 102" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M170 80 L170 102" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M266 80 L266 102" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="30" y="104" width="88" height="36" rx="8" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="74" y="122" text-anchor="middle" dominant-baseline="central" fill="#712B13">扣款 ¥100</text>
+<rect x="126" y="104" width="88" height="36" rx="8" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="170" y="122" text-anchor="middle" dominant-baseline="central" fill="#712B13">扣款 ¥100</text>
+<rect x="222" y="104" width="88" height="36" rx="8" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="266" y="122" text-anchor="middle" dominant-baseline="central" fill="#712B13">扣款 ¥100</text>
+
+<path d="M74 140 L150 158" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M170 140 L170 158" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M266 140 L190 158" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="95" y="160" width="150" height="40" rx="8" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="170" y="180" text-anchor="middle" dominant-baseline="central" fill="#712B13">重复扣款 3 笔 ❌</text>
+
+<text class="ts" x="170" y="236" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">每次都被当成新请求执行</text>
+<text class="ts" x="170" y="260" text-anchor="middle" dominant-baseline="central" fill="#993C1D">3 次请求 → 3 次扣款, 钱扣多了</text>
+
+<line x1="340" y1="45" x2="340" y2="270" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+<text class="th" x="510" y="30" text-anchor="middle" dominant-baseline="central" fill="#085041">幂等: 重发 N 次只生效 1 次</text>
+
+<rect x="370" y="48" width="88" height="32" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="414" y="64" text-anchor="middle" dominant-baseline="central" fill="#085041">请求 1</text>
+<rect x="466" y="48" width="88" height="32" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="510" y="64" text-anchor="middle" dominant-baseline="central" fill="#085041">请求 2</text>
+<rect x="562" y="48" width="88" height="32" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="606" y="64" text-anchor="middle" dominant-baseline="central" fill="#085041">请求 3</text>
+
+<path d="M414 80 L414 102" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M510 80 L510 102" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<path d="M606 80 L606 102" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="390" y="104" width="240" height="40" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="510" y="124" text-anchor="middle" dominant-baseline="central" fill="#04342C">幂等校验: token / 唯一键</text>
+
+<path d="M510 144 L510 170" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="430" y="172" width="160" height="40" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="510" y="192" text-anchor="middle" dominant-baseline="central" fill="#085041">执行扣款 ¥100</text>
+
+<text class="ts" x="510" y="236" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">第 2、3 次命中重复 → 直接返回首次结果</text>
+<text class="ts" x="510" y="260" text-anchor="middle" dominant-baseline="central" fill="#085041">3 次请求 → 只扣 1 次 ✅</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 305" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>幂等方案选型</title>
+<desc>创建类操作用 Token 加唯一索引，更新类操作用乐观锁或状态机，分布式锁只防并发不能替代幂等</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="170" y="32" text-anchor="middle" dominant-baseline="central" fill="#0C447C">创建类操作（下单 / 发券）</text>
+
+<rect x="45" y="50" width="250" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="170" y="66" text-anchor="middle" dominant-baseline="central" fill="#0C447C">① Token / 唯一请求 ID</text>
+<text class="ts" x="170" y="86" text-anchor="middle" dominant-baseline="central" fill="#0C447C">前置拦截, Redis 原子删除</text>
+
+<path d="M170 98 L170 118" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="45" y="122" width="250" height="48" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="170" y="134" text-anchor="middle" dominant-baseline="central" fill="#0C447C">② DB 唯一索引兜底</text>
+<text class="ts" x="170" y="158" text-anchor="middle" dominant-baseline="central" fill="#0C447C">落库强约束, 最可靠</text>
+
+<text class="ts" x="170" y="190" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">双保险: 前置拦截 + 落库兜底</text>
+
+<line x1="340" y1="45" x2="340" y2="205" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+<text class="th" x="510" y="32" text-anchor="middle" dominant-baseline="central" fill="#085041">更新类操作（扣库存 / 改状态）</text>
+
+<rect x="385" y="50" width="250" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="510" y="66" text-anchor="middle" dominant-baseline="central" fill="#085041">③ 乐观锁 version / CAS</text>
+<text class="ts" x="510" y="86" text-anchor="middle" dominant-baseline="central" fill="#085041">WHERE version = ?</text>
+
+<path d="M510 98 L510 118" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="385" y="122" width="250" height="48" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="510" y="134" text-anchor="middle" dominant-baseline="central" fill="#04342C">④ 状态机约束</text>
+<text class="ts" x="510" y="158" text-anchor="middle" dominant-baseline="central" fill="#04342C">利用状态流转不变性</text>
+
+<text class="ts" x="510" y="190" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">无额外字段, 最自然</text>
+
+<rect x="45" y="212" width="590" height="48" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="340" y="236" text-anchor="middle" dominant-baseline="central" fill="#712B13">⚠️ 分布式锁只防「同时」并发, 防不住「先后」重复 —— 不能单独当幂等方案</text>
+
+<text class="ts" x="340" y="282" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">选型: 创建类用 Token + 唯一索引, 更新类用乐观锁 / 状态机</text>
+</svg>

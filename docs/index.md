@@ -138,6 +138,14 @@ html, body {
 .li-cat:hover {
   color: var(--md-accent-fg-color);
 }
+.li-date {
+  font-size: 0.7rem;
+  color: var(--md-default-fg-color--lighter);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 74px;
+  text-align: right;
+}
 
 /* 移动端适配 */
 @media screen and (max-width: 768px) {
@@ -148,6 +156,7 @@ html, body {
   .home { padding: 0.85rem; }
   .home-title { font-size: 1.1rem; }
   .li-cat { display: none; }
+  .li-date { display: none; }
   .li-link:hover { padding-left: 0; }
 }
 
@@ -156,23 +165,24 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>15</strong> 篇 · 5 分类 · 最近 2026-10-20</span>
+    <span class="home-stats">共 <strong>16</strong> 篇 · 5 分类 · 最近 2026-10-20</span>
   </div>
   <ul class="home-list">
-<li><a href="java-basic/io-multiplexing" class="li-link"><span class="li-title">IO 模型与多路复用：从 BIO 到 Reactor</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">IO多路复用</span><span class="li-tag">NIO</span><span class="li-tag">Reactor</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
-<li><a href="redis/why-fast" class="li-link"><span class="li-title">Redis 为什么这么快：设计与实现</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">性能</span><span class="li-tag">设计</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
-<li><a href="java-basic/thread-states" class="li-link"><span class="li-title">Java 线程的六种状态与状态流转</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程</span><span class="li-tag">状态</span><span class="li-tag">并发</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
-<li><a href="java-basic/singleton" class="li-link"><span class="li-title">Java 单例模式的几种实现方式</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">单例</span><span class="li-tag">设计模式</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
-<li><a href="java-basic/thread-pool" class="li-link"><span class="li-title">线程池工作原理</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程池</span><span class="li-tag">并发</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
-<li><a href="mysql/ip-storage" class="li-link"><span class="li-title">MySQL 中 IP 地址的存储与转换</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">IP 地址</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>
-<li><a href="java-basic/hashcode-equals" class="li-link"><span class="li-title">== 和 equals 的区别</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">==</span><span class="li-tag">equals</span><span class="li-tag">hashCode</span></span></a><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
-<li><a href="redis/data-structures" class="li-link"><span class="li-title">Redis 数据结构</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">数据结构</span><span class="li-tag">底层实现</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
-<li><a href="browser-network/http-connection-pool" class="li-link"><span class="li-title">长连接 vs 短连接 & HTTP 连接池</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">长连接</span><span class="li-tag">连接池</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
-<li><a href="browser-network/tcp-handshake-farewell" class="li-link"><span class="li-title">TCP 三次握手与四次挥手</span><span class="li-tags"><span class="li-tag">TCP</span><span class="li-tag">网络</span><span class="li-tag">协议</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
-<li><a href="redis/connection-pool" class="li-link"><span class="li-title">Redis 连接池</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">连接池</span><span class="li-tag">性能优化</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
-<li><a href="mysql/field-types" class="li-link"><span class="li-title">MySQL 字段类型与存储空间估算</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">数据类型</span></span></a><a href="../category/mysql" class="li-cat">MySQL</a></li>
-<li><a href="redis/cache-issues" class="li-link"><span class="li-title">缓存穿透、击穿、雪崩</span><span class="li-tags"><span class="li-tag">缓存</span><span class="li-tag">Redis</span><span class="li-tag">高并发</span></span></a><a href="../category/redis" class="li-cat">Redis</a></li>
-<li><a href="browser-network/http-caching" class="li-link"><span class="li-title">HTTP 缓存策略</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">缓存</span><span class="li-tag">性能</span></span></a><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
-<li><a href="engineering/url-shortener" class="li-link"><span class="li-title">短链系统设计</span><span class="li-tags"><span class="li-tag">系统设计</span><span class="li-tag">Base62</span><span class="li-tag">Redis</span></span></a><a href="../category/engineering" class="li-cat">工程化</a></li>
+<li><a href="java-basic/io-multiplexing" class="li-link"><span class="li-title">IO 模型与多路复用：从 BIO 到 Reactor</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">IO多路复用</span><span class="li-tag">NIO</span><span class="li-tag">Reactor</span></span></a><span class="li-date">2026-10-20</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="engineering/idempotency" class="li-link"><span class="li-title">请求的幂等性如何保证</span><span class="li-tags"><span class="li-tag">幂等性</span><span class="li-tag">分布式</span><span class="li-tag">接口设计</span></span></a><span class="li-date">2026-10-20</span><a href="../category/engineering" class="li-cat">工程化</a></li>
+<li><a href="redis/why-fast" class="li-link"><span class="li-title">Redis 为什么这么快：设计与实现</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">性能</span><span class="li-tag">设计</span></span></a><span class="li-date">2026-10-14</span><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="java-basic/thread-states" class="li-link"><span class="li-title">Java 线程的六种状态与状态流转</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程</span><span class="li-tag">状态</span><span class="li-tag">并发</span></span></a><span class="li-date">2026-10-12</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="java-basic/singleton" class="li-link"><span class="li-title">Java 单例模式的几种实现方式</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">单例</span><span class="li-tag">设计模式</span></span></a><span class="li-date">2026-10-11</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="java-basic/thread-pool" class="li-link"><span class="li-title">线程池工作原理</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">线程池</span><span class="li-tag">并发</span></span></a><span class="li-date">2026-10-08</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="mysql/ip-storage" class="li-link"><span class="li-title">MySQL 中 IP 地址的存储与转换</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">IP 地址</span></span></a><span class="li-date">2026-10-08</span><a href="../category/mysql" class="li-cat">MySQL</a></li>
+<li><a href="java-basic/hashcode-equals" class="li-link"><span class="li-title">== 和 equals 的区别</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">==</span><span class="li-tag">equals</span><span class="li-tag">hashCode</span></span></a><span class="li-date">2026-09-29</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
+<li><a href="redis/data-structures" class="li-link"><span class="li-title">Redis 数据结构</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">数据结构</span><span class="li-tag">底层实现</span></span></a><span class="li-date">2026-09-29</span><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="browser-network/http-connection-pool" class="li-link"><span class="li-title">长连接 vs 短连接 & HTTP 连接池</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">长连接</span><span class="li-tag">连接池</span></span></a><span class="li-date">2026-09-29</span><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
+<li><a href="mysql/field-types" class="li-link"><span class="li-title">MySQL 字段类型与存储空间估算</span><span class="li-tags"><span class="li-tag">MySQL</span><span class="li-tag">存储</span><span class="li-tag">数据类型</span></span></a><span class="li-date">2026-09-28</span><a href="../category/mysql" class="li-cat">MySQL</a></li>
+<li><a href="redis/cache-issues" class="li-link"><span class="li-title">缓存穿透、击穿、雪崩</span><span class="li-tags"><span class="li-tag">缓存</span><span class="li-tag">Redis</span><span class="li-tag">高并发</span></span></a><span class="li-date">2026-09-28</span><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="redis/connection-pool" class="li-link"><span class="li-title">Redis 连接池</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">连接池</span><span class="li-tag">性能优化</span></span></a><span class="li-date">2026-09-28</span><a href="../category/redis" class="li-cat">Redis</a></li>
+<li><a href="browser-network/tcp-handshake-farewell" class="li-link"><span class="li-title">TCP 三次握手与四次挥手</span><span class="li-tags"><span class="li-tag">TCP</span><span class="li-tag">网络</span><span class="li-tag">协议</span></span></a><span class="li-date">2026-09-28</span><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
+<li><a href="engineering/url-shortener" class="li-link"><span class="li-title">短链系统设计</span><span class="li-tags"><span class="li-tag">系统设计</span><span class="li-tag">Base62</span><span class="li-tag">Redis</span></span></a><span class="li-date">2026-09-24</span><a href="../category/engineering" class="li-cat">工程化</a></li>
+<li><a href="browser-network/http-caching" class="li-link"><span class="li-title">HTTP 缓存策略</span><span class="li-tags"><span class="li-tag">HTTP</span><span class="li-tag">缓存</span><span class="li-tag">性能</span></span></a><span class="li-date">2026-09-24</span><a href="../category/browser-network" class="li-cat">浏览器与网络</a></li>
   </ul>
 </div>
