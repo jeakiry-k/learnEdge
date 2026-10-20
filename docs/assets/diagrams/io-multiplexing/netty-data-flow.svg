@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>Netty 一次请求的完整数据流转</title>
+<desc>客户端 connect 后由 boss 线程 accept 并注册到 worker，数据到达内核后由 worker 读取、走 pipeline 处理并回写</desc>
+<defs>
+<marker id="arf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="90" y="30" text-anchor="middle" dominant-baseline="central" fill="#2C2C2A">客户端</text>
+<text class="th" x="260" y="30" text-anchor="middle" dominant-baseline="central" fill="#444441">内核</text>
+<text class="th" x="420" y="30" text-anchor="middle" dominant-baseline="central" fill="#0C447C">boss EventLoop</text>
+<text class="th" x="580" y="30" text-anchor="middle" dominant-baseline="central" fill="#085041">worker EventLoop</text>
+
+<line x1="90" y1="48" x2="90" y2="445" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 4"/>
+<line x1="260" y1="48" x2="260" y2="445" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 4"/>
+<line x1="420" y1="48" x2="420" y2="445" stroke="#85B7EB" stroke-width="0.5" stroke-dasharray="4 4"/>
+<line x1="580" y1="48" x2="580" y2="445" stroke="#5DCAA5" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+<rect x="360" y="68" width="120" height="130" rx="8" fill="#E6F1FB" opacity="0.35"/>
+<rect x="520" y="268" width="120" height="150" rx="8" fill="#E1F5EE" opacity="0.4"/>
+
+<path d="M102 82 L248 82" fill="none" stroke="#444441" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="175" y="70" text-anchor="middle" dominant-baseline="central" fill="#444441">1. connect → TCP 三次握手, 连接进 backlog</text>
+
+<path d="M272 128 L408 128" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="340" y="116" text-anchor="middle" dominant-baseline="central" fill="#185FA5">2. select 返回 OP_ACCEPT, accept 拿到 SocketChannel</text>
+
+<path d="M432 172 L568 172" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="500" y="160" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">3. 注册给某个 worker, 监听 OP_READ</text>
+
+<path d="M102 224 L248 224" fill="none" stroke="#444441" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="175" y="212" text-anchor="middle" dominant-baseline="central" fill="#444441">4. 发数据 → 网卡 → socket 接收缓冲区</text>
+
+<path d="M272 268 L568 268" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="420" y="256" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">5. epoll 标记 fd 可读, worker 的 select 返回 OP_READ</text>
+
+<rect x="500" y="292" width="150" height="64" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="575" y="314" text-anchor="middle" dominant-baseline="central" fill="#04342C">6. channel.read → ByteBuf</text>
+<text class="ts" x="575" y="336" text-anchor="middle" dominant-baseline="central" fill="#04342C">pipeline: decoder → handler</text>
+
+<path d="M568 384 L272 384" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="420" y="372" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">7. writeAndFlush → encoder → socket 发送缓冲区</text>
+
+<path d="M248 424 L102 424" fill="none" stroke="#444441" stroke-width="1.5" marker-end="url(#arf)"/>
+<text class="ts" x="175" y="412" text-anchor="middle" dominant-baseline="central" fill="#444441">8. 内核协议栈发回客户端</text>
+
+<text class="ts" x="340" y="464" text-anchor="middle" dominant-baseline="central" fill="#444441">第 2-3 步在 boss 线程, 第 5-7 步在 worker 线程 —— 连接注册后终身由同一个 EventLoop 负责</text>
+</svg>

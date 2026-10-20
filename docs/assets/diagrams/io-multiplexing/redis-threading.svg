@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>Redis 6.0+ 线程模型</title>
+<desc>主线程仍是 Reactor 负责事件分发和命令执行，I/O 线程只辅助 socket 读写和解析</desc>
+<defs>
+<marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<rect x="40" y="60" width="90" height="34" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="85" y="77" text-anchor="middle" dominant-baseline="central" fill="#444441">连接 1</text>
+<rect x="40" y="110" width="90" height="34" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="85" y="127" text-anchor="middle" dominant-baseline="central" fill="#444441">连接 2</text>
+<rect x="40" y="160" width="90" height="34" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="85" y="177" text-anchor="middle" dominant-baseline="central" fill="#444441">连接 3</text>
+<rect x="40" y="210" width="90" height="34" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="85" y="227" text-anchor="middle" dominant-baseline="central" fill="#444441">... N</text>
+
+<path d="M130 77 L200 100" fill="none" stroke="#185FA5" stroke-width="1"/>
+<path d="M130 127 L200 130" fill="none" stroke="#185FA5" stroke-width="1"/>
+<path d="M130 177 L200 160" fill="none" stroke="#185FA5" stroke-width="1"/>
+<path d="M130 227 L200 190" fill="none" stroke="#185FA5" stroke-width="1"/>
+
+<rect x="205" y="55" width="180" height="200" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+<text class="th" x="295" y="80" text-anchor="middle" dominant-baseline="central" fill="#0C447C">主线程 (Reactor)</text>
+<text class="ts" x="295" y="105" text-anchor="middle" dominant-baseline="central" fill="#185FA5">epoll 监听所有连接</text>
+<text class="ts" x="295" y="125" text-anchor="middle" dominant-baseline="central" fill="#185FA5">accept 新连接</text>
+
+<rect x="225" y="145" width="140" height="88" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="295" y="168" text-anchor="middle" dominant-baseline="central" fill="#0C447C">命令执行仍单线程</text>
+<text class="ts" x="295" y="190" text-anchor="middle" dominant-baseline="central" fill="#0C447C">GET / SET / INCR</text>
+<text class="ts" x="295" y="212" text-anchor="middle" dominant-baseline="central" fill="#0C447C">串行, 无锁, 原子</text>
+
+<rect x="430" y="55" width="200" height="90" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="530" y="80" text-anchor="middle" dominant-baseline="central" fill="#085041">I/O 线程组 (6.0+)</text>
+<text class="ts" x="530" y="103" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">只做 socket read + 解析协议</text>
+<text class="ts" x="530" y="124" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">和结果 write, 不碰数据</text>
+
+<path d="M385 100 L425 100" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ar3)"/>
+<text class="ts" x="405" y="88" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">分发</text>
+
+<rect x="430" y="170" width="200" height="85" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="530" y="195" text-anchor="middle" dominant-baseline="central" fill="#085041">后台线程 (BIO)</text>
+<text class="ts" x="530" y="218" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">UNLINK 惰性删除 / AOF 刷盘</text>
+<text class="ts" x="530" y="238" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">大 key 释放不阻塞主线程</text>
+
+<text class="ts" x="340" y="295" text-anchor="middle" dominant-baseline="central" fill="#444441">关键不变量: 任何时刻只有主线程在执行命令, 内存数据结构永远无并发</text>
+<text class="ts" x="340" y="316" text-anchor="middle" dominant-baseline="central" fill="#444441">I/O 线程干活时主线程等待, 主线程执行时 I/O 线程空转 —— 交替而非并行</text>
+</svg>

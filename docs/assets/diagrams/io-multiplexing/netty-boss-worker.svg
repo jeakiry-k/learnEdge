@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>Netty Boss 与 Worker 线程组</title>
+<desc>BossGroup 负责 accept，WorkerGroup 负责连接读写，EventLoop 与 Channel 一对一绑定</desc>
+<defs>
+<marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<rect x="40" y="55" width="130" height="44" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="105" y="77" text-anchor="middle" dominant-baseline="central" fill="#444441">客户端连接请求</text>
+
+<path d="M170 77 L225 77" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+<rect x="235" y="35" width="170" height="110" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="320" y="55" text-anchor="middle" dominant-baseline="central" fill="#0C447C">BossGroup</text>
+<text class="ts" x="320" y="74" text-anchor="middle" dominant-baseline="central" fill="#185FA5">通常 1 个 EventLoop</text>
+<rect x="265" y="88" width="110" height="40" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="320" y="108" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Selector 只监听</text>
+<text class="ts" x="320" y="123" text-anchor="middle" dominant-baseline="central" fill="#0C447C">OP_ACCEPT</text>
+
+<path d="M405 90 L445 90" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text class="ts" x="425" y="76" text-anchor="middle" dominant-baseline="central" fill="#185FA5">accept</text>
+
+<path d="M405 120 C 435 120 425 180 465 180" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text class="ts" x="443" y="158" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">注册 Channel</text>
+
+<rect x="475" y="30" width="180" height="280" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="565" y="52" text-anchor="middle" dominant-baseline="central" fill="#085041">WorkerGroup</text>
+<text class="ts" x="565" y="71" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">默认 2×CPU 核数个</text>
+
+<rect x="495" y="95" width="140" height="60" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="565" y="115" text-anchor="middle" dominant-baseline="central" fill="#085041">EventLoop 1</text>
+<text class="ts" x="565" y="136" text-anchor="middle" dominant-baseline="central" fill="#085041">Selector + 任务队列</text>
+
+<rect x="495" y="170" width="140" height="60" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="565" y="190" text-anchor="middle" dominant-baseline="central" fill="#085041">EventLoop 2</text>
+<text class="ts" x="565" y="211" text-anchor="middle" dominant-baseline="central" fill="#085041">Selector + 任务队列</text>
+
+<rect x="495" y="245" width="140" height="44" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="565" y="267" text-anchor="middle" dominant-baseline="central" fill="#085041">EventLoop N ...</text>
+
+<text class="ts" x="290" y="185" text-anchor="middle" dominant-baseline="central" fill="#085041">关键规则: 一个 Channel</text>
+<text class="ts" x="290" y="205" text-anchor="middle" dominant-baseline="central" fill="#085041">终身绑定一个 EventLoop</text>
+<text class="ts" x="290" y="225" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">→ 单连接内无锁、无并发问题</text>
+
+<text class="ts" x="565" y="325" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">每个 EventLoop 轮询自己名下所有 Channel 的 read/write</text>
+</svg>
