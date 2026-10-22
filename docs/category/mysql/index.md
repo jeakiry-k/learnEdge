@@ -68,6 +68,7 @@ hide:
   white-space: nowrap;
 }
 .item-date {
+  display: none; /* 列表按更新时间倒序，但不展示日期 */
   font-size: 0.75rem;
   color: var(--md-default-fg-color--lighter);
   white-space: nowrap;

@@ -139,6 +139,7 @@ html, body {
   color: var(--md-accent-fg-color);
 }
 .li-date {
+  display: none; /* 列表按更新时间倒序，但不展示日期 */
   font-size: 0.7rem;
   color: var(--md-default-fg-color--lighter);
   white-space: nowrap;
@@ -165,7 +166,7 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>17</strong> 篇 · 5 分类 · 最近 2026-10-22</span>
+    <span class="home-stats">共 <strong>17</strong> 篇 · 5 分类</span>
   </div>
   <ul class="home-list">
 <li><a href="engineering/distributed-id" class="li-link"><span class="li-title">分布式 ID 方案有哪些，优缺点如何选择</span><span class="li-tags"><span class="li-tag">分布式ID</span><span class="li-tag">雪花算法</span><span class="li-tag">号段模式</span></span></a><span class="li-date">2026-10-22</span><a href="../category/engineering" class="li-cat">工程化</a></li>
