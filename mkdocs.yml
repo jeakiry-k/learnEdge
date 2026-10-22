@@ -61,3 +61,4 @@ nav:
       - 短链服务系统设计: engineering/url-shortener.md
       - HTTP 缓存策略: browser-network/http-caching.md
       - 请求的幂等性如何保证: engineering/idempotency.md
+      - 分布式 ID 方案有哪些，优缺点如何选择: engineering/distributed-id.md

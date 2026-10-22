@@ -92,9 +92,10 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>工程化</h1>
-    <span class="count">共 2 篇</span>
+    <span class="count">共 3 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../engineering/distributed-id"><span class="item-title">分布式 ID 方案有哪些，优缺点如何选择</span><span class="item-tags"><span class="tag">分布式ID</span><span class="tag">雪花算法</span><span class="tag">号段模式</span></span><span class="item-date">2026-10-22</span></a></li>
 <li><a href="../../engineering/idempotency"><span class="item-title">请求的幂等性如何保证</span><span class="item-tags"><span class="tag">幂等性</span><span class="tag">分布式</span><span class="tag">接口设计</span></span><span class="item-date">2026-10-20</span></a></li>
 <li><a href="../../engineering/url-shortener"><span class="item-title">短链系统设计</span><span class="item-tags"><span class="tag">系统设计</span><span class="tag">Base62</span><span class="tag">Redis</span></span><span class="item-date">2026-09-24</span></a></li>
   </ul>

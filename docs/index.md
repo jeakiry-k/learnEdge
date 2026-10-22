@@ -165,9 +165,10 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>16</strong> 篇 · 5 分类 · 最近 2026-10-20</span>
+    <span class="home-stats">共 <strong>17</strong> 篇 · 5 分类 · 最近 2026-10-22</span>
   </div>
   <ul class="home-list">
+<li><a href="engineering/distributed-id" class="li-link"><span class="li-title">分布式 ID 方案有哪些，优缺点如何选择</span><span class="li-tags"><span class="li-tag">分布式ID</span><span class="li-tag">雪花算法</span><span class="li-tag">号段模式</span></span></a><span class="li-date">2026-10-22</span><a href="../category/engineering" class="li-cat">工程化</a></li>
 <li><a href="java-basic/io-multiplexing" class="li-link"><span class="li-title">IO 模型与多路复用：从 BIO 到 Reactor</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">IO多路复用</span><span class="li-tag">NIO</span><span class="li-tag">Reactor</span></span></a><span class="li-date">2026-10-20</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="engineering/idempotency" class="li-link"><span class="li-title">请求的幂等性如何保证</span><span class="li-tags"><span class="li-tag">幂等性</span><span class="li-tag">分布式</span><span class="li-tag">接口设计</span></span></a><span class="li-date">2026-10-20</span><a href="../category/engineering" class="li-cat">工程化</a></li>
 <li><a href="redis/why-fast" class="li-link"><span class="li-title">Redis 为什么这么快：设计与实现</span><span class="li-tags"><span class="li-tag">Redis</span><span class="li-tag">性能</span><span class="li-tag">设计</span></span></a><span class="li-date">2026-10-14</span><a href="../category/redis" class="li-cat">Redis</a></li>

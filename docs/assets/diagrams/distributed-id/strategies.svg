@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>分布式 ID 方案选型</title>
+<desc>按是否要求递增、并发量、是否暴露业务量来选择分布式 ID 方案</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central" fill="#0C447C">按场景选型</text>
+
+<!-- 左列：不要求递增 -->
+<rect x="40" y="50" width="180" height="44" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="ts" x="130" y="66" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">日志 traceId</text>
+<text class="ts" x="130" y="84" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">临时 token</text>
+
+<path d="M130 94 L130 116" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="40" y="120" width="180" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="130" y="142" text-anchor="middle" dominant-baseline="central" fill="#085041">UUID</text>
+
+<text class="ts" x="130" y="180" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">无序无所谓, 要的是简单</text>
+
+<!-- 中列：分库分表主键 -->
+<rect x="250" y="50" width="180" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="340" y="66" text-anchor="middle" dominant-baseline="central" fill="#0C447C">分库分表主键</text>
+<text class="ts" x="340" y="84" text-anchor="middle" dominant-baseline="central" fill="#0C447C">消息 ID</text>
+
+<path d="M340 94 L340 116" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="250" y="120" width="180" height="44" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="340" y="142" text-anchor="middle" dominant-baseline="central" fill="#0C447C">雪花算法</text>
+
+<text class="ts" x="340" y="180" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">趋势递增 + 高性能, 主流答案</text>
+
+<!-- 右列：订单号 -->
+<rect x="460" y="50" width="180" height="44" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="550" y="66" text-anchor="middle" dominant-baseline="central" fill="#712B13">订单号</text>
+<text class="ts" x="550" y="84" text-anchor="middle" dominant-baseline="central" fill="#712B13">要带日期、不暴露量</text>
+
+<path d="M550 94 L550 116" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<rect x="460" y="120" width="180" height="44" rx="8" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="550" y="142" text-anchor="middle" dominant-baseline="central" fill="#712B13">Redis 自增 / 号段</text>
+
+<text class="ts" x="550" y="180" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">可拼业务前缀, 如 20261022xxx</text>
+
+<!-- 底部：生产级 -->
+<rect x="40" y="210" width="600" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="340" y="226" text-anchor="middle" dominant-baseline="central" fill="#0C447C">中大型系统、要生产级 → 美团 Leaf（号段 + 雪花双模式）</text>
+<text class="ts" x="340" y="246" text-anchor="middle" dominant-baseline="central" fill="#0C447C">双 buffer 预取 + 时钟回拨处理, 开箱即用</text>
+
+<text class="ts" x="340" y="290" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">核心权衡: 全局唯一 vs 趋势递增 —— 完全随机保证唯一但无序, 完全递增有序但难分布式</text>
+</svg>
