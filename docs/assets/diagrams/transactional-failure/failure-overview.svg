@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 290" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>@Transactional 失效原因总览</title>
+<desc>事务失效的六类原因：代理层面、异常层面、传播行为、管理层面、数据库层面、并发与分布</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@Transactional 失效的六大原因</text>
+
+<!-- 第一行 -->
+<rect x="35" y="54" width="190" height="76" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="130" y="78" text-anchor="middle" dominant-baseline="central" fill="#712B13">① 代理层面</text>
+<text class="ts" x="130" y="98" text-anchor="middle" dominant-baseline="central" fill="#712B13">非 public 方法</text>
+<text class="ts" x="130" y="116" text-anchor="middle" dominant-baseline="central" fill="#712B13">类内部自调用</text>
+
+<rect x="245" y="54" width="190" height="76" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="340" y="78" text-anchor="middle" dominant-baseline="central" fill="#0C447C">② 异常层面</text>
+<text class="ts" x="340" y="98" text-anchor="middle" dominant-baseline="central" fill="#0C447C">catch 吞异常</text>
+<text class="ts" x="340" y="116" text-anchor="middle" dominant-baseline="central" fill="#0C447C">rollbackFor 不对</text>
+
+<rect x="455" y="54" width="190" height="76" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="550" y="78" text-anchor="middle" dominant-baseline="central" fill="#085041">③ 传播行为</text>
+<text class="ts" x="550" y="98" text-anchor="middle" dominant-baseline="central" fill="#085041">NOT_SUPPORTED</text>
+<text class="ts" x="550" y="116" text-anchor="middle" dominant-baseline="central" fill="#085041">NEVER / SUPPORTS</text>
+
+<!-- 第二行 -->
+<rect x="35" y="150" width="190" height="76" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="130" y="174" text-anchor="middle" dominant-baseline="central" fill="#0C447C">④ 管理层面</text>
+<text class="ts" x="130" y="194" text-anchor="middle" dominant-baseline="central" fill="#0C447C">没被 Spring 管理</text>
+<text class="ts" x="130" y="212" text-anchor="middle" dominant-baseline="central" fill="#0C447C">手动 new 对象</text>
+
+<rect x="245" y="150" width="190" height="76" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="340" y="174" text-anchor="middle" dominant-baseline="central" fill="#085041">⑤ 数据库层面</text>
+<text class="ts" x="340" y="194" text-anchor="middle" dominant-baseline="central" fill="#085041">MyISAM 不支持事务</text>
+<text class="ts" x="340" y="212" text-anchor="middle" dominant-baseline="central" fill="#085041">需用 InnoDB</text>
+
+<rect x="455" y="150" width="190" height="76" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="0.5"/>
+<text class="ts" x="550" y="174" text-anchor="middle" dominant-baseline="central" fill="#712B13">⑥ 并发与分布</text>
+<text class="ts" x="550" y="194" text-anchor="middle" dominant-baseline="central" fill="#712B13">多线程拿不到事务</text>
+<text class="ts" x="550" y="212" text-anchor="middle" dominant-baseline="central" fill="#712B13">跨库需分布式事务</text>
+
+<text class="ts" x="340" y="258" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">地基: @Transactional 靠 AOP 代理生效, 调用必须经过代理</text>
+</svg>
