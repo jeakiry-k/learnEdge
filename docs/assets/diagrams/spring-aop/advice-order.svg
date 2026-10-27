@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>五种通知执行顺序（洋葱模型）</title>
+<desc>Around 包最外层，Before 在目标前，AfterReturning/AfterThrowing 在目标后，After 兜底</desc>
+
+<text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central" fill="#0C447C">五种通知的执行顺序（洋葱模型）</text>
+
+<rect x="35" y="52" width="280" height="190" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="175" y="72" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@Around（最外层）</text>
+<rect x="70" y="86" width="210" height="122" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="175" y="104" text-anchor="middle" dominant-baseline="central" fill="#085041">@Before（目标前）</text>
+<rect x="105" y="118" width="140" height="46" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="175" y="141" text-anchor="middle" dominant-baseline="central" fill="#04342C">目标方法</text>
+<text class="ts" x="175" y="186" text-anchor="middle" dominant-baseline="central" fill="#085041">@AfterReturning / @AfterThrowing</text>
+<text class="ts" x="175" y="228" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@After（无论如何都执行）</text>
+
+<line x1="340" y1="46" x2="340" y2="260" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+<text class="ts" x="500" y="54" text-anchor="middle" dominant-baseline="central" fill="#0C447C">实际执行顺序</text>
+<rect x="360" y="66" width="280" height="34" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="376" y="83" text-anchor="middle" dominant-baseline="central" fill="#0C447C">1</text>
+<text class="ts" x="500" y="83" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@Around 前（进入）</text>
+<rect x="360" y="104" width="280" height="34" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="376" y="121" text-anchor="middle" dominant-baseline="central" fill="#085041">2</text>
+<text class="ts" x="500" y="121" text-anchor="middle" dominant-baseline="central" fill="#085041">@Before</text>
+<rect x="360" y="142" width="280" height="34" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="376" y="159" text-anchor="middle" dominant-baseline="central" fill="#04342C">3</text>
+<text class="ts" x="500" y="159" text-anchor="middle" dominant-baseline="central" fill="#04342C">目标方法</text>
+<rect x="360" y="180" width="280" height="34" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="376" y="197" text-anchor="middle" dominant-baseline="central" fill="#085041">4</text>
+<text class="ts" x="500" y="197" text-anchor="middle" dominant-baseline="central" fill="#085041">@AfterReturning / @AfterThrowing</text>
+<rect x="360" y="218" width="280" height="34" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="376" y="235" text-anchor="middle" dominant-baseline="central" fill="#0C447C">5</text>
+<text class="ts" x="500" y="235" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@After（无论如何）</text>
+<rect x="360" y="256" width="280" height="34" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="376" y="273" text-anchor="middle" dominant-baseline="central" fill="#0C447C">6</text>
+<text class="ts" x="500" y="273" text-anchor="middle" dominant-baseline="central" fill="#0C447C">@Around 后（退出）</text>
+
+<text class="ts" x="340" y="296" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">@Around 包最外层；@After 相当于 finally，正常异常都会执行</text>
+</svg>

@@ -93,9 +93,10 @@ hide:
 <div class="category-page">
   <div class="category-header">
     <h1>Java 基础</h1>
-    <span class="count">共 6 篇</span>
+    <span class="count">共 7 篇</span>
   </div>
   <ul class="category-list">
+<li><a href="../../java-basic/spring-aop"><span class="item-title">Spring AOP 方式和原理，开发中注意事项</span><span class="item-tags"><span class="tag">Spring</span><span class="tag">AOP</span><span class="tag">代理</span></span><span class="item-date">2026-10-27</span></a></li>
 <li><a href="../../java-basic/transactional-failure"><span class="item-title">@Transactional 失效的原因有哪些</span><span class="item-tags"><span class="tag">Spring</span><span class="tag">事务</span><span class="tag">AOP</span></span><span class="item-date">2026-10-26</span></a></li>
 <li><a href="../../java-basic/io-multiplexing"><span class="item-title">IO 模型与多路复用：从 BIO 到 Reactor</span><span class="item-tags"><span class="tag">Java</span><span class="tag">IO多路复用</span><span class="tag">NIO</span><span class="tag">Reactor</span></span><span class="item-date">2026-10-20</span></a></li>
 <li><a href="../../java-basic/thread-states"><span class="item-title">Java 线程的六种状态与状态流转</span><span class="item-tags"><span class="tag">Java</span><span class="tag">线程</span><span class="tag">状态</span><span class="tag">并发</span></span><span class="item-date">2026-10-12</span></a></li>

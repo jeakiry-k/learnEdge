@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 290" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>JDK 动态代理 vs CGLIB</title>
+<desc>JDK 动态代理基于接口用反射调用，CGLIB 基于继承生成子类</desc>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central" fill="#0C447C">两种代理方式：JDK 动态代理 vs CGLIB</text>
+
+<text class="ts" x="180" y="54" text-anchor="middle" dominant-baseline="central" fill="#0C447C">JDK 动态代理 · 基于接口</text>
+<rect x="35" y="64" width="290" height="40" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="180" y="84" text-anchor="middle" dominant-baseline="central" fill="#0C447C">接口 UserService</text>
+<path d="M180 104 L180 118" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="35" y="120" width="290" height="42" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="180" y="141" text-anchor="middle" dominant-baseline="central" fill="#0C447C">实现类 UserServiceImpl</text>
+<path d="M180 162 L180 176" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="35" y="178" width="290" height="56" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="180" y="198" text-anchor="middle" dominant-baseline="central" fill="#0C447C">代理 $Proxy</text>
+<text class="ts" x="180" y="218" text-anchor="middle" dominant-baseline="central" fill="#0C447C">实现同一接口，反射调目标</text>
+
+<line x1="340" y1="48" x2="340" y2="256" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+<text class="ts" x="500" y="54" text-anchor="middle" dominant-baseline="central" fill="#085041">CGLIB · 基于继承</text>
+<rect x="355" y="64" width="290" height="42" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="500" y="85" text-anchor="middle" dominant-baseline="central" fill="#085041">目标类 UserService（无需接口）</text>
+<path d="M500 106 L500 120" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="355" y="122" width="290" height="112" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="ts" x="500" y="146" text-anchor="middle" dominant-baseline="central" fill="#085041">子类 UserService$$Enhancer</text>
+<text class="ts" x="500" y="166" text-anchor="middle" dominant-baseline="central" fill="#085041">继承目标类，覆写方法</text>
+<text class="ts" x="500" y="190" text-anchor="middle" dominant-baseline="central" fill="#9B4A2E">final 类 / 方法无法代理 ⚠</text>
+<text class="ts" x="500" y="210" text-anchor="middle" dominant-baseline="central" fill="#9B4A2E">（无法继承 / 覆写）</text>
+
+<text class="ts" x="340" y="276" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">JDK 靠接口、CGLIB 靠继承；Boot 2.0+ 默认统一用 CGLIB</text>
+</svg>
