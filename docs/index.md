@@ -166,9 +166,10 @@ html, body {
 <div class="home">
   <div class="home-header">
     <h1 class="home-title">更新日志</h1>
-    <span class="home-stats">共 <strong>19</strong> 篇 · 5 分类</span>
+    <span class="home-stats">共 <strong>20</strong> 篇 · 5 分类</span>
   </div>
   <ul class="home-list">
+<li><a href="java-basic/jvm-memory-gc" class="li-link"><span class="li-title">JVM 运行时内存分布与垃圾回收策略</span><span class="li-tags"><span class="li-tag">Java</span><span class="li-tag">JVM</span><span class="li-tag">内存</span><span class="li-tag">垃圾回收</span><span class="li-tag">GC</span></span></a><span class="li-date">2026-11-05</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="java-basic/spring-aop" class="li-link"><span class="li-title">Spring AOP 方式和原理，开发中注意事项</span><span class="li-tags"><span class="li-tag">Spring</span><span class="li-tag">AOP</span><span class="li-tag">代理</span></span></a><span class="li-date">2026-10-27</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="java-basic/transactional-failure" class="li-link"><span class="li-title">@Transactional 失效的原因有哪些</span><span class="li-tags"><span class="li-tag">Spring</span><span class="li-tag">事务</span><span class="li-tag">AOP</span></span></a><span class="li-date">2026-10-26</span><a href="../category/java-basic" class="li-cat">Java 基础</a></li>
 <li><a href="engineering/distributed-id" class="li-link"><span class="li-title">分布式 ID 方案有哪些，优缺点如何选择</span><span class="li-tags"><span class="li-tag">分布式ID</span><span class="li-tag">雪花算法</span><span class="li-tag">号段模式</span></span></a><span class="li-date">2026-10-22</span><a href="../category/engineering" class="li-cat">工程化</a></li>

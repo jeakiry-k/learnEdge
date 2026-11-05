@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>对象流转与分代回收</title>
+<desc>对象从 Eden 出发，经 Minor GC 进入 Survivor，多次存活晋升老年代，老年代由 Major/Full GC 回收</desc>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="340" y="26" text-anchor="middle" dominant-baseline="central" fill="#0C447C">对象的一生：从 Eden 到老年代</text>
+
+<!-- 新生代 -->
+<rect x="20" y="48" width="270" height="150" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="155" y="66" text-anchor="middle" dominant-baseline="central" fill="#085041">新生代 Young（Minor GC）</text>
+
+<rect x="34" y="78" width="150" height="52" rx="8" fill="#EDEAF6" stroke="#6B5B95" stroke-width="0.5"/>
+<text class="ts" x="109" y="96" text-anchor="middle" dominant-baseline="central" fill="#4A3A7A">Eden</text>
+<text class="ts" x="109" y="114" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">new 出来的对象</text>
+
+<rect x="196" y="78" width="80" height="52" rx="8" fill="#EDEAF6" stroke="#6B5B95" stroke-width="0.5"/>
+<text class="ts" x="236" y="96" text-anchor="middle" dominant-baseline="central" fill="#4A3A7A">S0</text>
+<text class="ts" x="236" y="114" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">存活 1 次</text>
+
+<rect x="34" y="142" width="242" height="42" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="155" y="163" text-anchor="middle" dominant-baseline="central" fill="#085041">S0 ↔ S1 来回倒腾（复制算法），每轮年龄 +1</text>
+
+<!-- 老年代 -->
+<rect x="320" y="48" width="200" height="150" rx="12" fill="#FBE8E0" stroke="#C26A4A" stroke-width="0.5"/>
+<text class="th" x="420" y="66" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">老年代 Old（Major / Full GC）</text>
+<text class="ts" x="420" y="120" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">年龄达到阈值（默认 15）</text>
+<text class="ts" x="420" y="140" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">或 Survivor 放不下的对象</text>
+<text class="ts" x="420" y="160" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">直接晋升到这里</text>
+
+<!-- 箭头 -->
+<path d="M184 104 L196 104" fill="none" stroke="#6B5B95" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M290 130 L320 130" fill="none" stroke="#C26A4A" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- 大对象直接进老年代 -->
+<rect x="540" y="48" width="120" height="80" rx="8" fill="#FBE8E0" stroke="#C26A4A" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="600" y="80" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">大对象</text>
+<text class="ts" x="600" y="100" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">直接进老年代</text>
+<path d="M540 96 L522 96" fill="none" stroke="#C26A4A" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- 底部：三种 GC -->
+<text class="th" x="340" y="228" text-anchor="middle" dominant-baseline="central" fill="#0C447C">三种 GC 各管一段</text>
+
+<rect x="20" y="244" width="196" height="92" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="118" y="264" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Minor GC</text>
+<text class="ts" x="118" y="284" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">只回收新生代</text>
+<text class="ts" x="118" y="304" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">频繁、速度快、STW 短</text>
+
+<rect x="232" y="244" width="196" height="92" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="330" y="264" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Major GC</text>
+<text class="ts" x="330" y="284" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">只回收老年代</text>
+<text class="ts" x="330" y="304" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">通常伴随 Minor GC</text>
+
+<rect x="444" y="244" width="216" height="92" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="ts" x="552" y="264" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Full GC</text>
+<text class="ts" x="552" y="284" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">整个堆 + 方法区</text>
+<text class="ts" x="552" y="304" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">STW 最长，要尽量避免</text>
+
+<text class="ts" x="340" y="350" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">核心：朝生夕死的对象在新生代快速回收，长寿对象晋升老年代低频回收</text>
+</svg>
