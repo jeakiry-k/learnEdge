@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>消息不丢失的三道防线</title>
+<desc>生产者确认、Broker 持久化、消费者手动 ACK，三个环节各自防丢</desc>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="340" y="26" text-anchor="middle" dominant-baseline="central" fill="#0C447C">消息不丢失：三个环节各守一道</text>
+
+<!-- 生产者 -->
+<rect x="20" y="48" width="180" height="120" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="110" y="68" text-anchor="middle" dominant-baseline="central" fill="#0C447C">① 生产者 Producer</text>
+<text class="ts" x="110" y="92" text-anchor="middle" dominant-baseline="central" fill="#0C447C">发送确认机制</text>
+<text class="ts" x="110" y="114" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">Kafka: acks=all</text>
+<text class="ts" x="110" y="134" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">RocketMQ: SYNC + 重试</text>
+<text class="ts" x="110" y="154" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">RabbitMQ: confirm 确认</text>
+
+<path d="M200 108 L250 108" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Broker -->
+<rect x="250" y="48" width="180" height="120" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="340" y="68" text-anchor="middle" dominant-baseline="central" fill="#085041">② Broker 存储</text>
+<text class="ts" x="340" y="92" text-anchor="middle" dominant-baseline="central" fill="#085041">持久化 + 副本</text>
+<text class="ts" x="340" y="114" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">落盘才返回成功</text>
+<text class="ts" x="340" y="134" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">主从副本冗余</text>
+<text class="ts" x="340" y="154" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">不丢不覆盖</text>
+
+<path d="M430 108 L480 108" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- 消费者 -->
+<rect x="480" y="48" width="180" height="120" rx="12" fill="#FBE8E0" stroke="#C26A4A" stroke-width="0.5"/>
+<text class="th" x="570" y="68" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">③ 消费者 Consumer</text>
+<text class="ts" x="570" y="92" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">手动 ACK</text>
+<text class="ts" x="570" y="114" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">处理成功才确认</text>
+<text class="ts" x="570" y="134" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">失败不确认 → 重投</text>
+<text class="ts" x="570" y="154" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">配合幂等兜底</text>
+
+<!-- 下半：各环节丢失原因与对策 -->
+<text class="th" x="340" y="200" text-anchor="middle" dominant-baseline="central" fill="#0C447C">每个环节「会怎么丢」→「怎么防」</text>
+
+<rect x="20" y="216" width="200" height="180" rx="8" fill="#F5F2E8" stroke="#C9B76E" stroke-width="0.5"/>
+<text class="th" x="120" y="236" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">生产者可能丢</text>
+<text class="ts" x="120" y="262" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">网络抖动发送失败</text>
+<text class="ts" x="120" y="282" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">异步发送没等确认</text>
+<line x1="40" y1="296" x2="200" y2="296" stroke="#C9B76E" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="120" y="318" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">对策：同步发送 +</text>
+<text class="ts" x="120" y="338" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">确认 + 失败重试</text>
+<text class="ts" x="120" y="362" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">(acks=all / SYNC / confirm)</text>
+
+<rect x="240" y="216" width="200" height="180" rx="8" fill="#F5F2E8" stroke="#C9B76E" stroke-width="0.5"/>
+<text class="th" x="340" y="236" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">Broker 可能丢</text>
+<text class="ts" x="340" y="262" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">收到就回 ACK 没落盘</text>
+<text class="ts" x="340" y="282" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">宕机丢内存数据</text>
+<text class="ts" x="340" y="302" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">单副本无冗余</text>
+<line x1="260" y1="316" x2="420" y2="316" stroke="#C9B76E" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="340" y="338" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">对策：持久化落盘</text>
+<text class="ts" x="340" y="358" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">+ 多副本冗余</text>
+<text class="ts" x="340" y="378" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">(刷盘 + 副本同步)</text>
+
+<rect x="460" y="216" width="200" height="180" rx="8" fill="#F5F2E8" stroke="#C9B76E" stroke-width="0.5"/>
+<text class="th" x="560" y="236" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">消费者可能丢</text>
+<text class="ts" x="560" y="262" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">自动 ACK 提前确认</text>
+<text class="ts" x="560" y="282" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">业务没处理完就挂了</text>
+<line x1="480" y1="296" x2="640" y2="296" stroke="#C9B76E" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="ts" x="560" y="318" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">对策：手动 ACK，</text>
+<text class="ts" x="560" y="338" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">处理完再确认</text>
+<text class="ts" x="560" y="362" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">+ 业务幂等防重复</text>
+
+<text class="ts" x="340" y="410" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">三个环节全部防住，才能做到「至少一次」投递；配合幂等实现「恰好一次」</text>
+</svg>

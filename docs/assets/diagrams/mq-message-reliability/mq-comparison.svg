@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="100%" role="img">
+<style>.th{font:500 14px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.ts{font:400 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}</style>
+<title>Kafka / RabbitMQ / RocketMQ 对比</title>
+<desc>三大消息中间件的定位、吞吐、可靠性、生态对比与选型倾向</desc>
+
+<text class="th" x="340" y="26" text-anchor="middle" dominant-baseline="central" fill="#0C447C">三大 MQ 一张图对比</text>
+
+<!-- 表头 -->
+<rect x="20" y="44" width="100" height="36" rx="0" fill="#E8E6DE" stroke="#B9B6AC" stroke-width="0.5"/>
+<text class="ts" x="70" y="62" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">维度</text>
+<rect x="120" y="44" width="180" height="36" rx="0" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="210" y="62" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Kafka</text>
+<rect x="300" y="44" width="180" height="36" rx="0" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="390" y="62" text-anchor="middle" dominant-baseline="central" fill="#085041">RabbitMQ</text>
+<rect x="480" y="44" width="180" height="36" rx="0" fill="#FBE8E0" stroke="#C26A4A" stroke-width="0.5"/>
+<text class="th" x="570" y="62" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">RocketMQ</text>
+
+<!-- 行 -->
+<g font-family="-apple-system,'PingFang SC',sans-serif">
+<rect x="20" y="80" width="100" height="44" rx="0" fill="#FAFAF8" stroke="#B9B6AC" stroke-width="0.5"/><text class="ts" x="70" y="102" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">吞吐量</text>
+<rect x="120" y="80" width="180" height="44" rx="0" fill="#FBFDFF" stroke="#185FA5" stroke-width="0.5"/><text class="ts" x="210" y="102" text-anchor="middle" dominant-baseline="central" fill="#0C447C">极高（百万级）</text>
+<rect x="300" y="80" width="180" height="44" rx="0" fill="#F7FDFA" stroke="#0F6E56" stroke-width="0.5"/><text class="ts" x="390" y="102" text-anchor="middle" dominant-baseline="central" fill="#085041">中（万级）</text>
+<rect x="480" y="80" width="180" height="44" rx="0" fill="#FEF9F5" stroke="#C26A4A" stroke-width="0.5"/><text class="ts" x="570" y="102" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">高（十万级）</text>
+
+<rect x="20" y="124" width="100" height="44" rx="0" fill="#FAFAF8" stroke="#B9B6AC" stroke-width="0.5"/><text class="ts" x="70" y="146" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">消息模型</text>
+<rect x="120" y="124" width="180" height="44" rx="0" fill="#FBFDFF" stroke="#185FA5" stroke-width="0.5"/><text class="ts" x="210" y="146" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Topic + 分区 + 消费组</text>
+<rect x="300" y="124" width="180" height="44" rx="0" fill="#F7FDFA" stroke="#0F6E56" stroke-width="0.5"/><text class="ts" x="390" y="146" text-anchor="middle" dominant-baseline="central" fill="#085041">Exchange 路由 + Queue</text>
+<rect x="480" y="124" width="180" height="44" rx="0" fill="#FEF9F5" stroke="#C26A4A" stroke-width="0.5"/><text class="ts" x="570" y="146" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">Topic + Tag + 消费组</text>
+
+<rect x="20" y="168" width="100" height="44" rx="0" fill="#FAFAF8" stroke="#B9B6AC" stroke-width="0.5"/><text class="ts" x="70" y="190" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">消息顺序</text>
+<rect x="120" y="168" width="180" height="44" rx="0" fill="#FBFDFF" stroke="#185FA5" stroke-width="0.5"/><text class="ts" x="210" y="190" text-anchor="middle" dominant-baseline="central" fill="#0C447C">分区内有序</text>
+<rect x="300" y="168" width="180" height="44" rx="0" fill="#F7FDFA" stroke="#0F6E56" stroke-width="0.5"/><text class="ts" x="390" y="190" text-anchor="middle" dominant-baseline="central" fill="#085041">难保证（多消费者）</text>
+<rect x="480" y="168" width="180" height="44" rx="0" fill="#FEF9F5" stroke="#C26A4A" stroke-width="0.5"/><text class="ts" x="570" y="190" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">队列内严格有序</text>
+
+<rect x="20" y="212" width="100" height="44" rx="0" fill="#FAFAF8" stroke="#B9B6AC" stroke-width="0.5"/><text class="ts" x="70" y="234" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">事务消息</text>
+<rect x="120" y="212" width="180" height="44" rx="0" fill="#FBFDFF" stroke="#185FA5" stroke-width="0.5"/><text class="ts" x="210" y="234" text-anchor="middle" dominant-baseline="central" fill="#0C447C">需自行实现</text>
+<rect x="300" y="212" width="180" height="44" rx="0" fill="#F7FDFA" stroke="#0F6E56" stroke-width="0.5"/><text class="ts" x="390" y="234" text-anchor="middle" dominant-baseline="central" fill="#085041">无原生支持</text>
+<rect x="480" y="212" width="180" height="44" rx="0" fill="#FEF9F5" stroke="#C26A4A" stroke-width="0.5"/><text class="ts" x="570" y="234" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">原生事务消息</text>
+
+<rect x="20" y="256" width="100" height="44" rx="0" fill="#FAFAF8" stroke="#B9B6AC" stroke-width="0.5"/><text class="ts" x="70" y="278" text-anchor="middle" dominant-baseline="central" fill="#4A4A46">典型场景</text>
+<rect x="120" y="256" width="180" height="44" rx="0" fill="#FBFDFF" stroke="#185FA5" stroke-width="0.5"/><text class="ts" x="210" y="278" text-anchor="middle" dominant-baseline="central" fill="#0C447C">日志采集、大数据流</text>
+<rect x="300" y="256" width="180" height="44" rx="0" fill="#F7FDFA" stroke="#0F6E56" stroke-width="0.5"/><text class="ts" x="390" y="278" text-anchor="middle" dominant-baseline="central" fill="#085041">业务解耦、复杂路由</text>
+<rect x="480" y="256" width="180" height="44" rx="0" fill="#FEF9F5" stroke="#C26A4A" stroke-width="0.5"/><text class="ts" x="570" y="278" text-anchor="middle" dominant-baseline="central" fill="#9B3A1E">金融交易、电商订单</text>
+</g>
+
+<!-- 底部总结 -->
+<rect x="20" y="316" width="640" height="56" rx="10" fill="#F5F2E8" stroke="#C9B76E" stroke-width="0.5"/>
+<text class="ts" x="340" y="336" text-anchor="middle" dominant-baseline="central" fill="#7A5C00">选型口诀：大数据流选 Kafka，复杂路由选 RabbitMQ，金融交易/事务选 RocketMQ</text>
+<text class="ts" x="340" y="356" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">核心看四点：吞吐、可靠性、消息模型复杂度、是否要事务/顺序</text>
+
+<text class="ts" x="340" y="390" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">三者的消息可靠性本质上靠同一套机制，只是默认配置和侧重点不同</text>
+</svg>
